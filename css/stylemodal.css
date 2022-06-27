@@ -1,0 +1,130 @@
+/* Se importa la fuente */
+@import url('https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+/* Definir variables de colores */
+:root {
+    --principal-color-light: #bfbfbf;
+    --principal-color-dark: #383434;
+    --background-color: #e0dcdc;
+    --container-color: #d0cccc;
+    --espera-color: #df5200;
+    --atencion-color: #ffd300;
+    --cancelado-color: #dd0100;
+    --finalizado-color: #44aa00;
+    --fuente-texto: 'PT Sans', sans-serif;
+    --font-size: 1rem;
+    --font-weight: 400;
+    --line-height: 1.5;
+    --text-color: #212529;
+    --fondo: #fff;
+}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  position: relative;
+  background-color: #fefefe;
+  margin: auto;
+  padding: 0;
+  border: 1px solid #888;
+  width: 50%;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+  -webkit-animation-name: animatetop;
+  -webkit-animation-duration: 0.4s;
+  animation-name: animatetop;
+  animation-duration: 0.4s
+}
+
+/* Add Animation */
+@-webkit-keyframes animatetop {
+  from {top:-300px; opacity:0} 
+  to {top:0; opacity:1}
+}
+
+@keyframes animatetop {
+  from {top:-300px; opacity:0}
+  to {top:0; opacity:1}
+}
+
+/* The Close Button */
+.close {
+  background-color: var(--container-color) !important;
+  float: right;
+  font-size: var(--font-size);
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: var(--principal-color-dark);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.modal-header {
+  padding: 2px 16px;
+  background-color: var(--container-color);
+  color: var(--text-color);
+}
+
+.modal-body {
+  padding: 2px 16px;
+}
+
+.modal-footer {
+  padding: 2px 16px;
+  background-color: var(--container-color);
+  color: var(--text-color);
+  text-align:  center;
+}
+    
+.btn-modal{
+  border: 0;
+  background: var(--principal-color-light);
+  color: var(--text-color);
+  width: auto;
+  height: auto;
+  font-size: var(--font-size);
+}
+
+.fragment-modal{
+  display: grid;
+  grid-template-columns: 2fr 2fr;
+}
+
+.fragment-modal > *{
+  padding: 0.5em 2em !important;
+}
+
+@media only screen and (max-width: 1080px){
+  .fragment-modal{ 
+      display: grid !important;
+      grid-template-columns: 1fr !important;
+  }
+  
+  .fragment-modal > *{
+      padding: 0.5em;
+  }
+
+  .modal-body,select {
+      font-size: 0.8rem;
+  }
+
+  .btn-modal{
+    font-size: 0.8rem;
+  }
+}

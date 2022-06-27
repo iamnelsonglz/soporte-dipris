@@ -1,0 +1,201 @@
+/*Formateo de la pagina*/
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    font-family: 'Open Sans', sans-serif;
+    box-sizing: border-box;
+}
+/*Fin*/
+
+/* Definir variables de colores */
+:root {
+    --principal-color-light: #b0acac;
+    --principal-color-dark: #383434;
+    --background-color: #e0dcdc;
+    --container-color: #d0cccc;
+}
+
+/*Codigo de css para el body*/
+body{
+    margin-left: 60px;
+    margin-top: 60px;
+    transition: margin-left 300ms cubic-bezier(0.785, 0.135.0.15, 0.86);
+}
+/*Fin del codigo para el body*/
+
+/*Codigo de CSS para el contenido para possicionar el conenido*/
+main{
+    padding: 3em;
+}
+
+
+
+/*Fin css contenido*/
+
+/*Inicio de la barra del icono del Menu*/
+header{
+    width: 100%; /*Anchura de la barra del icono*/
+    height: 80px; /*Altura de la barra del icono*/
+    background: var(--principal-color-light); /*Definicion del color de la barra*/
+    display: flex; /*Tipo de visualizacion flex: propiedad de tipo elemento bloque y astablece el contenido de acuerdo al modelo de flexbox*/
+    align-items: center; /*Controla la aliniacion de los elementos dentro del bloque situado*/
+    position: fixed; /*Indica la posicion y la propiedad fixed especifiac el desplazamiento*/
+    top: 0; /*Se utiliza para la distancia del borde superior del bloque que contiene el contenido de la barra*/
+    z-index: 200; /*Indica la posionn despues del elemento desendiente por orden*/
+}
+
+ .icon_menu{
+     color: var(--principal-color-dark);
+     width: 50px;
+     height: 100%;
+     display: flex;
+     justify-content: center; /*Define como el navegador distribulle el espacio entre entere los items*/
+     align-items: center;
+     transform: translateX(10px);/*Define o permite la modificacion de coordenadas de un formato de visualizacion*/
+ } 
+
+ .icon_menu i{
+     font-size: 20px; /*Tamaño de la letra*/
+     cursor: pointer; /*Especifica el tipo de cursor subre cualquier etiqueta*/
+     position: absolute; 
+ }
+
+ .hola{
+    text-align: center;
+    font-size: 2em;
+    color: var(--principal-color-dark);
+}
+
+ /*Fin de css de la barra del Icono del Menu*/
+
+/*Barra lateral(Vertical) Inicio*/
+ .menu__side{
+     width: 80px;
+     height: 100%;
+     background: var(--principal-color-light);
+     position: fixed;
+     top: 0;
+     left: 0;
+     color: var(--principal-color-dark);/*Color del icono*/
+     font-size: 20px;
+     z-index: 300;
+     overflow: hidden; /*Recorte de contenido*/
+     overflow-y: scroll; /*Define que debe mostra cuando hay exente de contenido */
+     border-right: 20px solid var(--principal-color-light);
+     transition: all 300ms cubic-bezier(0.785, 0.135.0.15, 0.86);
+ }
+ /*Barra lateral(Vertical) Fin*/
+
+/*Inicio para el scroll para diferentes navegadores*/
+/*Ocultar scroll para chromer, safari y opera*/
+ .menu__side::-webkit-scrollbar{
+     display: none;
+ }
+ /*Ocultar scroll para IE, Edge y firefox*/
+ .menu__side{
+     -ms-overflow-style: none;
+     scrollbar-width: none;
+ }
+ /*Fin del scroll de los diferentes navegadores*/
+
+ /*inicio Icono de usuario el div*/
+ .name__page{
+     padding: 20px 30px;
+     display: flex;
+     align-items: center;
+     margin-top: 10px;
+ }
+ 
+ .name__page i{
+     width: 20px;
+     margin-right: 20px;
+ }
+ /*Fin del icono de usuario*/
+
+/*Inicio de todas las opciones dentro del menu*/
+ .options__menu{
+     padding: 20px 30px;
+     position: absolute;
+     top: 80px;
+ }
+
+ .options__menu a{
+     color: #ffffffb2;
+     cursor: default;
+     display: block;
+     position: relative;
+     transition: color 300ms;
+}
+
+.options__menu a:hover{
+    color:white;
+}
+
+.options__menu .option{
+    padding: 20px 0px;
+    display: flex;
+    align-items: center;
+    position: relative;
+}/*Contenedor de las opciones*/
+
+.options__menu .option i{
+    width: 20px;
+    margin-right: 20px;
+    cursor: pointer;
+}/*codigo para el icono*/
+
+.options__menu .option h4{
+    font-weight: 300; /*Grueso de la letra*/
+    cursor: pointer; 
+    
+}
+
+.box-item-content{
+    height: 0;
+    overflow: hidden;
+    background-color: rgb(54, 49, 49);
+    margin: 0;
+    padding-left: 20px;
+    transition: 0.5s;
+}
+
+ul{
+    list-style: none;
+}
+
+ ul li{
+    padding-top: 5px;
+}
+
+.options__menu .option .activo .box-item-content{
+    height: 100px;
+}
+
+
+a.selected{
+    color: var(--principal-color-dark);
+}
+
+/*Clases para usar en Javascript evento*/
+
+.body_move{
+    margin-left: 250px;
+}
+
+.menu__side_move{
+    width: 250px;
+}
+
+
+@media screen and (max-width: 760px){
+    .body_move{
+        margin-left: 0px;
+    }
+
+    .menu__side_move{
+        width: 80px;
+        left: -80px;
+    }
+}

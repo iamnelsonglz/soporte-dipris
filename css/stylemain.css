@@ -1,0 +1,141 @@
+
+/* Cuerpo del proyecto */
+body{
+    background: #fff;
+    color: #524A4E;
+    font-family: 'Open Sans', sans-serif;
+    padding: 0.5em;
+}
+
+/* Clase content */
+.content{
+    max-width: 1080px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0.5em;
+}
+
+/* Clase tittle */
+.tittle{
+    text-align: center;
+    font-size: 3em;
+}
+
+/* Span dentro de la clase tittle */
+.tittle span{
+    color: #AA3A3A;
+}
+
+.form h1{
+    text-align: center;
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
+/* Contenedor de todo */
+.wrapper{
+    box-shadow: 2px 2px 12px rgba(0, 0, 0,0.2), -10px -1px 8px rgba(0, 0, 0,0.2);
+}
+
+/* Grupo de elementos */
+.wrapper > *{
+    padding: 1em;
+}
+
+/**************** Estilo para Historial de reportes ******************/
+
+.wrapper .parent-tab{
+    margin-bottom: 8px;
+    border-radius: 3px;
+}
+
+.wrapper .parent-tab label{
+    color: #fff;
+    background: #AA3A3A;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    border-radius: 3px;
+    position: relative;
+    z-index: 99;
+    transition: all 0.3s ease;
+}
+
+.wrapper .parent-tab label:hover{
+    background: #006fe6;
+  }
+
+.parent-tab input:checked ~ label,
+.child-tab input:checked ~ label{
+  border-radius: 3px 3px 0 0;
+  background: #006fe6;
+}
+
+.wrapper label .span{
+    color: #fff;
+    font-size: 18px;
+    font-weight: 500;
+    text-shadow: 0 -1px 1px #000;
+}
+
+.parent-tab label .icon{
+    position: relative;
+    height: 30px;
+    width: 30px;
+    font-size: 15px;
+    color: #007bff;
+    display: block;
+    background: #fff;
+    border-radius: 50%;
+    text-shadow: 0 -1px 1px #0056b3;
+}
+
+.parent-tab label .icon i{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.parent-tab input:checked ~ label .icon i:before{
+  content: '\f068';
+}
+
+.wrapper .parent-tab .history{
+  max-height: 0px;
+  overflow: hidden;
+  background: #fff;
+  border-radius: 0 0 3px 3px;
+  transition: all 0.4s ease;
+}
+
+.parent-tab input:checked ~ .history{
+  max-height: 100vh;
+}
+
+.parent-tab .history p{
+  padding: 15px 20px;
+  font-size: 16px;
+}
+
+input[type="radio"]{
+  display: none;
+}
+
+
+
+/* Query para el adaptado de pantalla */
+@media (min-width: 720px){
+  
+
+    .wrapper{
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+
+    .wrapper > *{
+        padding: 2em;
+    }
+}

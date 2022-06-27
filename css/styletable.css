@@ -1,0 +1,81 @@
+/* Definir variables de colores */
+:root {
+    --principal-color-light: #b0acac;
+    --principal-color-dark: #383434;
+    --background-color: #e0dcdc;
+    --container-color: #d0cccc;
+}
+
+table{
+    /*position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);*/
+    border-collapse: collapse;
+    width: 100%;
+    border: 1px solid var(--background-color);
+    box-shadow: 2px 2px 12px rgba(0, 0, 0,0.2), -1px -1px 8px rgba(0, 0, 0,0.2);
+}
+
+/* Boton dentro de la tabla */
+table button{
+    background: var(--principal-color-light);
+    color: var(--principal-color-dark);
+    border: 0;
+    padding: 1em;
+}
+
+table button:hover,
+table button:focus{
+    background: var(--principal-color-dark);
+    color: var(--principal-color-light);
+    transition: background-color 0.3s ease-out;
+    transform: scale(1.01);
+    box-shadow: 2px 2px 12px rgba(0, 0, 0,0.2), -1px -1px 8px rgba(0, 0, 0,0.2);
+    outline: 0;
+}
+
+/* Secciones tabla */
+tr{
+    transition: all .2 ease-in;
+    cursor: pointer;
+}
+
+/* Filas y columnas */
+th,td{
+    padding: 1em;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Encabezado tabla */
+#header{
+    background-color: var(--principal-color-light);
+    color: var(--principal-color-dark);
+}
+
+/* Fila de la tabla seleccionada */
+table > tbody > tr:hover{
+    background-color: var(--background-color);
+}
+
+table {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+
+    caption-side: top;
+}
+
+table > tbody {
+    vertical-align: inherit;
+}
+table > thead {
+    vertical-align: bottom;
+}
+
+/* Query para el adaptado de pantalla */
+@media only screen and (max-width: 720px){
+    table{
+        width: 100%;
+    }
+}
