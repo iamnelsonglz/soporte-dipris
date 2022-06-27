@@ -1,7 +1,9 @@
 $(document).ready(function () {
     finish();
     wait();
+    attention();
     where();
+    fecha();
     obtenerReportesEspera();
 
     function finish(){
@@ -44,6 +46,29 @@ $(document).ready(function () {
         }); 
     }
 
+    function attention(){
+        $.ajax({
+            url: '../bdd/scriptreportes.php?attention',
+            type: 'GET',
+            beforeSend: function (xhr) {
+                
+            },
+            success: function (response) {
+                
+                const personas = JSON.parse(response);
+                let template = '';
+                personas.forEach(persona => {
+                    console.log("-->"+persona);
+                    template += `
+                    <li> <i class="fa-solid fa-clipboard-user"></i> ${persona.total} | ${persona.nombre}</li>
+                    `;
+                    $('.scoreboard-aten').html(template);
+                    
+                })
+            }    
+        }); 
+    }
+
     // Rellenar estados de solicitud
     function where() {
         $.ajax({
@@ -60,6 +85,12 @@ $(document).ready(function () {
                 })
             }
         });
+    }
+
+    function fecha(){
+        var fecha = new Date();
+        document.getElementById("fechainicio").value = fecha.toJSON().slice(0,10);
+        document.getElementById("fechafin").value = fecha.toJSON().slice(0,10);
     }
 
     // Mostrar las solicitudes en Espera

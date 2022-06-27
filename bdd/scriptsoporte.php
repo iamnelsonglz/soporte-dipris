@@ -7,6 +7,20 @@ require '../bdd/conexion.php';
 
 /* ****************************** Nuevo Reporte ****************************** */
 
+if (isset($_GET['finish'])){
+    $username = $_SESSION['username'];
+    todayfinish($username);
+}
+
+else if (isset($_GET['wait'])){
+    todaywait();
+}
+
+else if (isset($_GET['attention'])){
+    $username = $_SESSION['username'];
+    todayattention($username);
+}
+
 if (isset($_GET['estado'])) {
     verEstados();
 }
@@ -25,13 +39,13 @@ else if(isset($_POST['autoasignar'])){
 
 else if(isset($_GET['atencion'])){
     $username = $_SESSION['username'];
-    filtrarReporteAtencion($username);
+    verReporteAtencion($username);
 
 }
 
 else if(isset($_GET['finalizado'])){
     $username = $_SESSION['username'];
-    filtrarReporteFinalizado($username);
+    verReporteFinalizado($username);
 
 }
 
@@ -54,11 +68,104 @@ else if(isset($_POST['responder'])){
 
 }
 
+else if(isset($_GET['atencionfiltro'])){
+    $fechainicio = $_GET['inicio'];
+    $fechafin = $_GET['fin'];
+    $username = $_SESSION['username'];
+    filtrarReportesAtencion($fechainicio,$fechafin,$username);
+}
+
+else if(isset($_GET['finalizadofiltro'])){
+    $fechainicio = $_GET['inicio'];
+    $fechafin = $_GET['fin'];
+    $username = $_SESSION['username'];
+    filtrarReportesFinalizado($fechainicio,$fechafin,$username);
+}
+
+else if(isset($_GET['pendientesfiltro'])){
+    $fechainicio = $_GET['inicio'];
+    $fechafin = $_GET['fin'];
+    filtrarReportesEspera($fechainicio,$fechafin);
+}
+
 else{
     
 }
 
 /* *********************************************************** */
+
+// Ver la cantidad de reportes finalizados del día
+function todayfinish($username){
+    global $mysqli;
+    $select_query = "SELECT count(folio) AS total FROM reporte 
+    WHERE reporte.estado = '3' AND usuario_responde ='$username' AND fecha_respuesta >= CURDATE()";
+    $result = $mysqli->query($select_query);
+    if (!$result) {
+        echo "No se encontro resultados";
+        $nombre = 'no hay reportes finalizados';
+        $total = '0';
+        $json[] = array(
+            'total' => $total
+        );
+        $jsonstring = json_encode($json);
+        echo $jsonstring;
+    }
+
+    $json = array();
+    while ($row = mysqli_fetch_array($result)) {
+        $json[] = array(
+            'total' => $row['total']
+        );
+    }
+    $jsonstring = json_encode($json);
+    echo $jsonstring;
+}
+
+// Ver la cantidad de reportes en atención del día
+function todayattention($username){
+    global $mysqli;
+    $select_query = "SELECT count(folio) AS total FROM reporte 
+    WHERE reporte.estado = '2' AND usuario_responde ='$username'";
+    $result = $mysqli->query($select_query);
+    if (!$result) {
+        echo "No se encontro resultados";
+        $nombre = 'no hay reportes finalizados';
+        $total = '0';
+        $json[] = array(
+            'total' => $total
+        );
+        $jsonstring = json_encode($json);
+        echo $jsonstring;
+    }
+
+    $json = array();
+    while ($row = mysqli_fetch_array($result)) {
+        $json[] = array(
+            'total' => $row['total']
+        );
+    }
+    $jsonstring = json_encode($json);
+    echo $jsonstring;
+}
+
+function todaywait(){
+    global $mysqli;
+    $select_query = "SELECT count(folio) AS total FROM reporte 
+    WHERE reporte.estado = '1'";
+    $result = $mysqli->query($select_query);
+    if (!$result) {
+        echo "No se encontro resultados";
+    }
+
+    $json = array();
+    while ($row = mysqli_fetch_array($result)) {
+        $json[] = array(
+            'total' => $row['total']
+        );
+    }
+    $jsonstring = json_encode($json);
+    echo $jsonstring;
+}
 
 // Ver estados de reporte existentes
 function verEstados(){
@@ -124,7 +231,7 @@ function asignar($folio,$usuario){
     }
 }
 
-function filtrarReporteAtencion($username){
+function verReporteAtencion($username){
     global $mysqli;
     $select_query = "SELECT folio, fecha_reporte AS fecha, tipo_reporte.nombre AS tipo, Usuario.nombre AS usuario FROM reporte
     INNER JOIN Tipo_reporte ON reporte.tipo = tipo_reporte.idTipo
@@ -151,13 +258,13 @@ function filtrarReporteAtencion($username){
     }
 }
 
-function filtrarReporteFinalizado($username){
+function verReporteFinalizado($username){
     global $mysqli;
     $select_query = "SELECT folio, fecha_reporte AS fecha, tipo_reporte.nombre AS tipo, Usuario.nombre AS usuario FROM reporte
     INNER JOIN Tipo_reporte ON reporte.tipo = tipo_reporte.idTipo
     INNER JOIN usuario ON Reporte.usuario_reporta = Usuario.username
     INNER JOIN Categoria ON Usuario.categoria = Categoria.idCategoria
-    WHERE estado = '3' and usuario_responde = '$username'
+    WHERE estado = '3' and usuario_responde = '$username'  AND fecha_respuesta >= CURDATE()
     ORDER BY Usuario.categoria ASC, Tipo_reporte.prioridad ASC, fecha_reporte DESC";
     $result = $mysqli->query($select_query);
     if (!$result) {
@@ -251,6 +358,87 @@ function verRepuestaReporte($folio){
                 'departamento' => $row['departamento'],
                 'planta' => $row['planta'],
                 'respuesta' => $row['respuesta'],
+            );
+        }
+        $jsonstring = json_encode($json);
+        echo $jsonstring;
+    }
+}
+
+function filtrarReportesAtencion($fechainicio,$fechafin,$username){
+    global $mysqli;
+    $select_query = "SELECT folio, fecha_reporte AS fecha, tipo_reporte.nombre AS tipo, Usuario.nombre AS usuario FROM reporte
+    INNER JOIN Tipo_reporte ON reporte.tipo = tipo_reporte.idTipo
+    INNER JOIN usuario ON Reporte.usuario_reporta = Usuario.username
+    INNER JOIN Categoria ON Usuario.categoria = Categoria.idCategoria
+    WHERE estado = '2' and usuario_responde = '$username' AND (fecha_reporte BETWEEN '$fechainicio' AND '$fechafin 23:59:59')
+    ORDER BY Usuario.categoria ASC, Tipo_reporte.prioridad ASC, fecha_reporte DESC";
+    $result = $mysqli->query($select_query);
+    if (!$result) {
+        echo "";
+    }else{
+
+        $json = array();
+        while ($row = mysqli_fetch_array($result)) {
+            $json[] = array(
+                'folio' => $row['folio'],
+                'fecha' => $row['fecha'],
+                'tipo' => $row['tipo'],
+                'usuario' => $row['usuario']
+            );
+        }
+        $jsonstring = json_encode($json);
+        echo $jsonstring;
+    }
+}
+
+function filtrarReportesFinalizado($fechainicio,$fechafin,$username){
+    global $mysqli;
+    $select_query = "SELECT folio, fecha_reporte AS fecha, tipo_reporte.nombre AS tipo, Usuario.nombre AS usuario FROM reporte
+    INNER JOIN Tipo_reporte ON reporte.tipo = tipo_reporte.idTipo
+    INNER JOIN usuario ON Reporte.usuario_reporta = Usuario.username
+    INNER JOIN Categoria ON Usuario.categoria = Categoria.idCategoria
+    WHERE estado = '3' and usuario_responde = '$username' AND (fecha_respuesta BETWEEN '$fechainicio' AND '$fechafin 23:59:59')
+    ORDER BY Usuario.categoria ASC, Tipo_reporte.prioridad ASC, fecha_reporte DESC";
+    $result = $mysqli->query($select_query);
+    if (!$result) {
+        echo "";
+    }else{
+
+        $json = array();
+        while ($row = mysqli_fetch_array($result)) {
+            $json[] = array(
+                'folio' => $row['folio'],
+                'fecha' => $row['fecha'],
+                'tipo' => $row['tipo'],
+                'usuario' => $row['usuario']
+            );
+        }
+        $jsonstring = json_encode($json);
+        echo $jsonstring;
+    }
+}
+
+function filtrarReportesEspera($fechainicio,$fechafin){
+    global $mysqli;
+    $select_query = "SELECT folio, fecha_reporte AS fecha, tipo_reporte.nombre AS tipo, Usuario.nombre AS usuario FROM reporte
+    INNER JOIN Tipo_reporte ON reporte.tipo = tipo_reporte.idTipo
+    INNER JOIN usuario ON Reporte.usuario_reporta = Usuario.username
+    INNER JOIN Categoria ON Usuario.categoria = Categoria.idCategoria
+    WHERE estado = '1' AND (fecha_reporte BETWEEN '$fechainicio' AND '$fechafin 23:59:59')
+    ORDER BY Usuario.categoria ASC, Tipo_reporte.prioridad ASC, fecha_reporte DESC";
+    $result = $mysqli->query($select_query);
+    if (!$result) {
+        echo "";
+    }else{
+
+        $json = array();
+        while ($row = mysqli_fetch_array($result)) {
+            $json[] = array(
+                'folio' => $row['folio'],
+                'fecha' => $row['fecha'],
+                'tipo' => $row['tipo'],
+                'usuario' => $row['usuario']
             );
         }
         $jsonstring = json_encode($json);

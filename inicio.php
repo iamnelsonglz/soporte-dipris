@@ -165,19 +165,20 @@ if (isset($_SESSION['username']) && isset($_SESSION['tipo'])) {
                 <div class="content">
                 <div>
                 <fieldset>
-                    <legend class="txt"> <i class="fa-solid fa-circle-check"></i> Solicitudes finalizadas hoy</legend>
-                    <div id="totalfinal"></div>
-                    
-                   
+                    <legend class="txt"> <i class="fa-solid fa-circle-check"></i> Solicitudes finalizadas</legend>
                     <ul class="scoreboard-fin txt in">
-                        <li>0 solicitudes finalizadas</li>
+                        <li>0 solicitudes finalizadas hoy</li>
                     </ul>
-                
                 </fieldset>
                 <fieldset>
-                    <legend class="txt"> <i class="fa-solid fa-clock"></i> Solicitudes pendientes</legend>
+                    <legend class="txt"> <i class="fa-solid fa-bell-concierge"></i> Solicitudes en atención</legend>
+                    <ul class="scoreboard-aten txt in">
+                        <li>0 solicitudes en atención</li>
+                    </ul>
+                </fieldset>
+                <fieldset>
+                    <legend class="txt"> <i class="fa-solid fa-clock"></i> Solicitudes en espera</legend>
                     <div id="totalespera"><label class="txt"> <i class="fa-solid fa-clipboard-list"></i> Total: 0</label></div>
-                
                 </fieldset>    
                 </div>
                 <br>
@@ -229,7 +230,37 @@ if (isset($_SESSION['username']) && isset($_SESSION['tipo'])) {
                 <!-- Tabla con reportes registrados -->
                 
                 <div class="content">
-                
+                    <div>
+                        <fieldset>
+                            <legend class="txt"> <i class="fa-solid fa-clock"></i> Solicitudes en espera</legend>
+                            <div id="totalespera"><label class="txt"> <i class="fa-solid fa-clipboard-list"></i> Total: 0</label></div>
+                        </fieldset> 
+                        <fieldset>
+                            <legend class="txt"> <i class="fa-solid fa-circle-check"></i> Solicitudes finalizadas</legend>
+                            <div id="totalfinalizado"><label class="txt"> <i class="fa-solid fa-clipboard-list"></i> Total: 0</label></div>
+                        </fieldset>
+                        <fieldset>
+                            <legend class="txt"> <i class="fa-solid fa-bell-concierge"></i> Solicitudes en atención</legend>
+                            <div id="totalatencion"><label class="txt"> <i class="fa-solid fa-clipboard-list"></i> Total: 0</label></div>
+                        </fieldset>
+                    </div>
+                    <br>
+                    <fieldset>
+                        <legend class="txt">Filtrar solicitudes por fecha</legend>
+                            <form action="/reportes/" method="POST" id="formulario">
+                            <label for="fechainicio" class="txt">Fecha inicio</label>
+                            <input type="date" class="in" name="fechainicio" id="fechainicio"/>
+                            <label for="fechafin" class="txt">Fecha fin</label>
+                            <input type="date" class="in" name="fechafin"  id="fechafin"/>
+                            <button type="button" class="btn" id="filter-button"><i class="fa-solid fa-filter"></i> Filtrar</button>
+                            </form>
+                    </fieldset>
+                    <p><br></p>   
+                    <div id="loadtabla" class="loading">
+                        <svg viewBox="25 25 50 50">
+                        <circle r="20" cy="50" cx="50"></circle>
+                        </svg>
+                    </div>
                     <table>  
                         <!-- Encabezado de tabla -->
                         <thead>

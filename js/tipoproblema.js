@@ -6,7 +6,11 @@ $(document).ready(function () {
         $.ajax({
             url: '../bdd/scripttipoproblema.php?select',
             type: 'GET',
+            beforeSend: function (xhr) {
+                $("#loadtabla").fadeIn("slow");
+            },
             success: function (response) {
+                $("#loadtabla").fadeOut("slow");
                 const personas = JSON.parse(response);
                 let template = '';
                 personas.forEach(persona => {

@@ -15,6 +15,10 @@ else if (isset($_GET['wait'])){
     todaywait();
 }
 
+else if (isset($_GET['attention'])){
+    todayattention();
+}
+
 else if (isset($_GET['tipo'])) {
     verTipo();
 }
@@ -122,7 +126,38 @@ function todayfinish(){
     global $mysqli;
     $select_query = "SELECT folio, usuario.nombre AS nombre, COUNT(folio) AS total FROM reporte
     INNER JOIN usuario ON reporte.usuario_responde = usuario.username
-    WHERE reporte.estado = '2' AND fecha_respuesta >= CURDATE()
+    WHERE reporte.estado = '3' AND fecha_respuesta >= CURDATE()
+    GROUP BY usuario.nombre";
+    $result = $mysqli->query($select_query);
+    if (!$result) {
+        echo "No se encontro resultados";
+        $nombre = 'no hay reportes finalizados';
+        $total = '0';
+        $json[] = array(
+            'nombre' => $nombre,
+            'total' => $total
+        );
+        $jsonstring = json_encode($json);
+        echo $jsonstring;
+    }
+
+    $json = array();
+    while ($row = mysqli_fetch_array($result)) {
+        $json[] = array(
+            'nombre' => $row['nombre'],
+            'total' => $row['total']
+        );
+    }
+    $jsonstring = json_encode($json);
+    echo $jsonstring;
+}
+
+// Ver la cantidad de reportes en atención del día
+function todayattention(){
+    global $mysqli;
+    $select_query = "SELECT folio, usuario.nombre AS nombre, COUNT(folio) AS total FROM reporte
+    INNER JOIN usuario ON reporte.usuario_responde = usuario.username
+    WHERE reporte.estado = '2'
     GROUP BY usuario.nombre";
     $result = $mysqli->query($select_query);
     if (!$result) {
@@ -263,7 +298,7 @@ function verReportesEspera(){
     INNER JOIN Tipo_reporte ON reporte.tipo = tipo_reporte.idTipo
     INNER JOIN usuario ON Reporte.usuario_reporta = Usuario.username
     INNER JOIN Categoria ON Usuario.categoria = Categoria.idCategoria
-    WHERE estado = '1'
+    WHERE estado = '1' 
     ORDER BY Usuario.categoria ASC, Tipo_reporte.prioridad ASC, fecha_reporte DESC";
     $result = $mysqli->query($select_query);
     if (!$result) {
@@ -327,7 +362,7 @@ function verReportesAtencion(){
     INNER JOIN usuario AS Usuarioa ON Reporte.usuario_reporta = Usuarioa.username
     INNER JOIN usuario AS Usuariob ON Reporte.usuario_responde = Usuariob.username
     INNER JOIN Categoria ON Usuarioa.categoria = Categoria.idCategoria
-    WHERE estado = '2'
+    WHERE estado = '2' 
     ORDER BY Usuarioa.categoria ASC, Tipo_reporte.prioridad ASC, fecha_reporte DESC";
     $result = $mysqli->query($select_query);
     if (!$result) {
@@ -357,7 +392,7 @@ function verReportesFinalizado(){
     INNER JOIN usuario AS Usuarioa ON Reporte.usuario_reporta = Usuarioa.username
     INNER JOIN usuario AS Usuariob ON Reporte.usuario_responde = Usuariob.username
     INNER JOIN Categoria ON Usuarioa.categoria = Categoria.idCategoria
-    WHERE estado = '3'
+    WHERE estado = '3'  AND fecha_reporte >= CURDATE()
     ORDER BY Usuarioa.categoria ASC, Tipo_reporte.prioridad ASC, fecha_reporte DESC";
     $result = $mysqli->query($select_query);
     if (!$result) {
@@ -385,7 +420,7 @@ function verReportesCancelado(){
     INNER JOIN Tipo_reporte ON reporte.tipo = tipo_reporte.idTipo
     INNER JOIN usuario ON Reporte.usuario_reporta = Usuario.username
     INNER JOIN Categoria ON Usuario.categoria = Categoria.idCategoria
-    WHERE estado = '4'
+    WHERE estado = '4' AND fecha_reporte >= CURDATE()
     ORDER BY Tipo_reporte.prioridad ASC, fecha_reporte DESC";
     $result = $mysqli->query($select_query);
     if (!$result) {

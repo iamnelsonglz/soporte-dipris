@@ -18,6 +18,7 @@ if (isset($_SESSION['username']) && isset($_SESSION['tipo'])) {
             <!-- Estilos -->
             <link href="../css/stylemodal.css" rel="stylesheet" />
             <link href="../css/style.css" rel="stylesheet" />
+            <link href="../css/stylethings.css" rel="stylesheet" />
             <link href="../css/styletable.css" rel="stylesheet" />
             <link rel="stylesheet" href="../css/mlateral.css">
             <script src="https://kit.fontawesome.com/25f7695136.js" crossorigin="anonymous"></script>
@@ -143,8 +144,15 @@ if ($_SESSION['tipo'] == '1') { // Si el tipo de usuario es 1 o 2
                     <!-- Se agrupa todo el formulario -->
                     <div class="wrapper">
                         <div class="form">
+                            <button type="submit" class="add-button btn" id="add-button"><i class="fa-solid fa-user-plus"></i> Agregar personal</button>
+                            <p><br></p>   
+                            <div id="loadtabla" class="loading">
+                                <svg viewBox="25 25 50 50">
+                                <circle r="20" cy="50" cx="50"></circle>
+                                </svg>
+                            </div> 
                             <table>
-                                <button type="submit" class="add-button btn" id="add-button"><i class="fa-solid fa-user-plus"></i> Agregar personal</button>
+                                
                                 <!-- Encabezado de tabla -->
                                 <thead>
                                     <tr id="header">
