@@ -182,23 +182,24 @@ if (isset($_SESSION['username']) && isset($_SESSION['tipo'])) {
                 </fieldset>    
                 </div>
                 <br>
+                <form action="/reportes/" method="POST" id="formulario">
                     <fieldset>
                         <legend class="txt">Filtar solicitudes por estado</legend>
                             <select name="where" class="in" id="where"></select>
-                            <button type="submit" class="btn" id="estado-filter"><i class="fa-solid fa-filter"></i> Filtrar</button>
+                            <button class="btn" id="estado-filter"><i class="fa-solid fa-filter"></i> Filtrar</button>
                     </fieldset>
                     <fieldset>
                         <legend class="txt">Filtrar solicitudes por fecha</legend>
-                            <form action="/reportes/" method="POST" id="formulario">
+                            
                             <label for="fechainicio" class="txt">Fecha inicio</label>
                             <input type="date" class="in" name="fechainicio" id="fechainicio"/>
                             <label for="fechafin" class="txt">Fecha fin</label>
                             <input type="date" class="in" name="fechafin"  id="fechafin"/>
-                            <button type="button" class="btn" id="filter-button"><i class="fa-solid fa-filter"></i> Filtrar</button>
+                            <button class="btn" id="filter-button"><i class="fa-solid fa-filter"></i> Filtrar</button>
                             <button type="submit" class="btn" id="filter-pdf-button"><i class="fa-solid fa-file-pdf"></i> Generar documento</button>
-                            </form>
+                            
                     </fieldset>
-                    
+                </form>
                     <p><br></p>   
                     <div id="loadtabla" class="loading">
                         <svg viewBox="25 25 50 50">
@@ -288,12 +289,33 @@ if (isset($_SESSION['username']) && isset($_SESSION['tipo'])) {
             } else if ($_SESSION['tipo'] == 3) {
             ?>
             <div class="content">
+            <fieldset>
+                        <legend class="txt">Filtar solicitudes por estado</legend>
+                            <select name="where" class="in" id="where"></select>
+                            <button type="submit" class="btn" id="estado-filter"><i class="fa-solid fa-filter"></i> Filtrar</button>
+                    </fieldset>
+                    <fieldset>
+                        <legend class="txt">Filtrar solicitudes por fecha</legend>
+                            <form action="/reportes/" method="POST" id="formulario">
+                            <label for="fechainicio" class="txt">Fecha inicio</label>
+                            <input type="date" class="in" name="fechainicio" id="fechainicio"/>
+                            <label for="fechafin" class="txt">Fecha fin</label>
+                            <input type="date" class="in" name="fechafin"  id="fechafin"/>
+                            <button type="button" class="btn" id="filter-button"><i class="fa-solid fa-filter"></i> Filtrar</button>
+                            </form>
+                    </fieldset>
+                    <p><br></p>  
             <button type="submit" class="btn" id="add-button"><i class="fa-solid fa-plus"></i> Agregar reporte</button>
-            <br>
-            <br>
+            <p><br></p>   
+                    <div id="loadtabla" class="loading">
+                        <svg viewBox="25 25 50 50">
+                        <circle r="20" cy="50" cx="50"></circle>
+                        </svg>
+                    </div> 
                 <div id="card" class="card">
-                    <h2 class="titulo_reporte">No hay reportes pendientes en este momento</h2>
-                    <h2 class="titulo_reporte">No hay reportes anteriores</h2>
+                    <div class="cabecera">
+                    <h2 class="titulo_reporte">No hay solicitudes en espera en este momento</h2>
+                    </div>
                 </div>
                 
                 <script src="../js/reporteusuario.js"></script>

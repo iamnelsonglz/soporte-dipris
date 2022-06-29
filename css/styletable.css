@@ -46,6 +46,7 @@ th,td{
     padding: 1em;
     text-align: left;
     border-bottom: 1px solid #ddd;
+    word-wrap: break-word;
 }
 
 /* Encabezado tabla */

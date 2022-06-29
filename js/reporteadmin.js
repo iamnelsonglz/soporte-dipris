@@ -461,13 +461,8 @@ $(document).ready(function () {
                             <td>${persona.fecha}</td>
                             <td>${persona.tipo}</td>
                             <td>${persona.usuario}</td>
-                            <td>
-                            <select name="user-soporte" id="${persona.folio}" class="support-user in">
-                            </select>
-                            </td>
-                            <td>
-                            <button type="submit" folio="${persona.folio}" class="assign-button btn" title="Presione para asignar tarea "> <i class="fa-solid fa-check"></i> Asignar </button>
-                            </td>
+                            <td>${persona.responde}</td>
+                            <td></td>
                         </tr>
                     `;
                         $('#table-admin').html(template);
@@ -575,6 +570,7 @@ $(document).ready(function () {
 
     // filtrar reporte
     $(document).on('click', '#estado-filter', function (e) {
+        e.preventDefault();
         let filtro = $('#where').val();
         if(filtro == 1){
             obtenerReportesEspera();
@@ -600,17 +596,18 @@ $(document).ready(function () {
 
     // filtrar solicitudes
     $(document).on('click', '#filter-button', function (e) {
+        e.preventDefault();
         let fechainicio = $("#fechainicio").val();
         let fechafin = $("#fechafin").val();
         let filtro = $('#where').val();
 
         if(fechainicio.length <= 0 || fechafin.length <= 0){
-            e.preventDefault();
+           
             alert("Es necesario seleccionar fecha de inicio y fecha de fin");
             
         }else{
             if(Date.parse(fechafin) < Date.parse(fechainicio)) {
-                e.preventDefault();
+                
                 alert("La fecha final debe ser mayor o igual a la fecha de inicio");
                
             }else{
@@ -631,17 +628,18 @@ $(document).ready(function () {
 
     // Generar pdf de solicitudes filtradas
     $('#filter-pdf-button').on('click', function(e){
+        
         let fechainicio = $("#fechainicio").val();
         let fechafin = $("#fechafin").val();
         let filtro = $('#where').val();
         
         if(fechainicio.length <= 0 || fechafin.length <= 0){
-            e.preventDefault();
+            
             alert("Es necesario seleccionar fecha de inicio y fecha de fin");
             
         }else{
             if(Date.parse(fechafin) < Date.parse(fechainicio)) {
-                e.preventDefault();
+                
                 alert("La fecha final debe ser mayor o igual a la fecha de inicio");
                
             }else{

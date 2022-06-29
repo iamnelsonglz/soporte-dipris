@@ -4,7 +4,7 @@ obtenerTipo();
 // Rellenar select
 function obtenerTipo() {
     $.ajax({
-        url: '../bdd/scriptreportes.php?tipo',
+        url: '../bdd/scriptaddsolicitud.php?tipo',
         type: 'GET',
         success: function (response) {
             const personas = JSON.parse(response);
@@ -31,36 +31,12 @@ $(document).on('click', '#btn-add', function (e) {
             tipo: $('#tipo').val(),
             describe: $('#describe').val(),
         };
-        $.post('../bdd/scriptreportes.php', postData, function (response) {
-            //$('#form-add').trigger('reset');
-            //snackok();
+        $.post('../bdd/scriptaddsolicitud.php', postData, function (response) {
             alert(response);
             window.location.href = "../inicio.php";
         });
     }
 })
-
-function snackok() {
-    // Get the snackbar DIV
-    var x = document.getElementById("snackbarok");
-  
-    // Add the "show" class to DIV
-    x.className = "show";
-  
-    // After 3 seconds, remove the show class from DIV
-    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
-}
-
-function snackno() {
-    // Get the snackbar DIV
-    var x = document.getElementById("snackbarno");
-  
-    // Add the "show" class to DIV
-    x.className = "show";
-  
-    // After 3 seconds, remove the show class from DIV
-    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
-}
 
 // Redimensionar el text area
 const textarea = document.querySelector("textarea");

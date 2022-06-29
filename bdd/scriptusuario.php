@@ -5,23 +5,27 @@ session_start();
 // Se indica que se va usar la conexión a la base de datos
 require '../bdd/conexion.php';
 
-/* ****************************** Nuevo Reporte ****************************** */
-
-// Condición para mostrar todos los reportes pendientes
-if (isset($_GET['historialespera'])) {
-    $username = $_SESSION['username'];
-    verHistorialEspera($username);
+if (isset($_GET['verestados'])) {
+    verEstados();
 }
 
-// Condición para mostrar todos los reportes pendientes
 else if (isset($_GET['historial'])) {
+    $estado = $_GET['estado'];
     $username = $_SESSION['username'];
-    verHistorial($username);
+    verHistorial($username,$estado);
+}
+
+else if (isset($_GET['filtrar'])) {
+    $estado = $_GET['estado'];
+    $fechainicio = $_GET['inicio'];
+    $fechafin = $_GET['fin'];
+    $username = $_SESSION['username'];
+    filtrarHistorial($username,$estado,$fechainicio,$fechafin);
 }
 
 else if (isset($_POST['cancelar_reporte'])){
     $folio = $_POST['cancelar_reporte'];
-    cancelarReporte($folio);
+    cancelarSolicitud($folio);
 }
     
 else{
@@ -30,16 +34,56 @@ else{
 
 /* *********************************************************** */
 
-// Ver historial de reportes
-function verHistorialEspera($username){
+// Ver estados de solicitudes existentes
+function verEstados(){
     global $mysqli;
-    $select_query = "SELECT folio, fecha_reporte AS fecha, descripcion, tipo_reporte.nombre AS tipo, estado.nombre AS estado, IF(usuario_responde='root', 'Aún no asignado', usuario_responde) AS usuario, IF(fecha_respuesta IS NULL, 'Aún no respondido', fecha_respuesta) AS fecha_respuesta, IF(respuesta IS NULL, 'Aún no hay respuesta', respuesta) AS respuesta FROM reporte
-    INNER JOIN Tipo_reporte ON reporte.tipo = tipo_reporte.idTipo
-    INNER JOIN estado ON reporte.estado = estado.idEstado
-    INNER JOIN usuario ON Reporte.usuario_reporta = Usuario.username
-    INNER JOIN Categoria ON Usuario.categoria = Categoria.idCategoria
-    WHERE usuario_reporta='$username' and reporte.estado = '1'
-    ORDER BY fecha_reporte DESC";
+    $select_query = "SELECT idEstado, nombre FROM Estado ORDER BY idEstado ASC";
+    $result = $mysqli->query($select_query);
+    if (!$result) {
+        echo "No se encontro resultados para los estados de solicitudes";
+    }
+
+    $json = array();
+    while ($row = mysqli_fetch_array($result)) {
+        $json[] = array(
+            'idEstado' => $row['idEstado'],
+            'nombre' => $row['nombre']
+        );
+    }
+    $jsonstring = json_encode($json);
+    echo $jsonstring;
+}
+
+// Ver historial de solicitudes
+function verHistorial($username,$estado){
+    global $mysqli;
+    global $select_query;
+    if($estado == '1' || $estado == '2'){
+        $select_query = "SELECT folio, fecha_reporte AS fecha, descripcion, tipo_reporte.nombre AS tipo, estado.nombre AS estado, IF(usuario_responde='root', 'Aún no asignado', usuario_responde) AS usuario, IF(fecha_respuesta IS NULL, 'Aún no respondido', fecha_respuesta) AS fecha_respuesta, IF(respuesta IS NULL, 'Aún no hay respuesta', respuesta) AS respuesta FROM reporte
+        INNER JOIN Tipo_reporte ON reporte.tipo = tipo_reporte.idTipo
+        INNER JOIN estado ON reporte.estado = estado.idEstado
+        INNER JOIN usuario ON Reporte.usuario_reporta = Usuario.username
+        INNER JOIN Categoria ON Usuario.categoria = Categoria.idCategoria
+        WHERE usuario_reporta='$username' and reporte.estado = '$estado'
+        ORDER BY fecha_reporte DESC";
+    }else if($estado == '4'){
+        $select_query = "SELECT folio, fecha_reporte AS fecha, descripcion, tipo_reporte.nombre AS tipo, estado.nombre AS estado, IF(usuario_responde='root', 'Aún no asignado', usuario_responde) AS usuario, IF(fecha_respuesta IS NULL, 'Aún no respondido', fecha_respuesta) AS fecha_respuesta, IF(respuesta IS NULL, 'Aún no hay respuesta', respuesta) AS respuesta FROM reporte
+        INNER JOIN Tipo_reporte ON reporte.tipo = tipo_reporte.idTipo
+        INNER JOIN estado ON reporte.estado = estado.idEstado
+        INNER JOIN usuario ON Reporte.usuario_reporta = Usuario.username
+        INNER JOIN Categoria ON Usuario.categoria = Categoria.idCategoria
+        WHERE usuario_reporta='$username' and reporte.estado = '$estado' AND fecha_reporte >= CURDATE()
+        ORDER BY fecha_reporte DESC";
+    }else{
+        $select_query = "SELECT folio, fecha_reporte AS fecha, descripcion, tipo_reporte.nombre AS tipo, estado.nombre AS estado, IF(usuario_responde='root', 'Aún no asignado', usuario_responde) AS usuario, IF(fecha_respuesta IS NULL, 'Aún no respondido', fecha_respuesta) AS fecha_respuesta, IF(respuesta IS NULL, 'Aún no hay respuesta', respuesta) AS respuesta FROM reporte
+        INNER JOIN Tipo_reporte ON reporte.tipo = tipo_reporte.idTipo
+        INNER JOIN estado ON reporte.estado = estado.idEstado
+        INNER JOIN usuario ON Reporte.usuario_reporta = Usuario.username
+        INNER JOIN Categoria ON Usuario.categoria = Categoria.idCategoria
+        WHERE usuario_reporta='$username' and reporte.estado = '$estado' AND fecha_respuesta >= CURDATE()
+        ORDER BY fecha_reporte DESC";
+    }
+    
     $result = $mysqli->query($select_query);
     if (!$result) {
         echo "";
@@ -64,16 +108,29 @@ function verHistorialEspera($username){
 
 }
 
-// Ver historial de reportes
-function verHistorial($username){
+// Ver historial de solicitudes
+function filtrarHistorial($username,$estado,$fechainicio,$fechafin){
     global $mysqli;
-    $select_query = "SELECT folio, fecha_reporte AS fecha, descripcion, tipo_reporte.nombre AS tipo, estado.nombre AS estado, IF(usuario_responde='root', 'Aún no asignado', usuario_responde) AS usuario, IF(fecha_respuesta IS NULL, 'Aún no respondido', fecha_respuesta) AS fecha_respuesta, IF(respuesta IS NULL, 'Aún no hay respuesta', respuesta) AS respuesta FROM reporte
-    INNER JOIN Tipo_reporte ON reporte.tipo = tipo_reporte.idTipo
-    INNER JOIN estado ON reporte.estado = estado.idEstado
-    INNER JOIN usuario ON Reporte.usuario_reporta = Usuario.username
-    INNER JOIN Categoria ON Usuario.categoria = Categoria.idCategoria
-    WHERE usuario_reporta='$username' and reporte.estado != 1
-    ORDER BY fecha_reporte DESC";
+    global $select_query;
+    if($estado == '1' || $estado == '2' || $estado == '4'){
+        $select_query = "SELECT folio, fecha_reporte AS fecha, descripcion, tipo_reporte.nombre AS tipo, estado.nombre AS estado, IF(usuario_responde='root', 'Aún no asignado', usuario_responde) AS usuario, IF(fecha_respuesta IS NULL, 'Aún no respondido', fecha_respuesta) AS fecha_respuesta, IF(respuesta IS NULL, 'Aún no hay respuesta', respuesta) AS respuesta FROM reporte
+        INNER JOIN Tipo_reporte ON reporte.tipo = tipo_reporte.idTipo
+        INNER JOIN estado ON reporte.estado = estado.idEstado
+        INNER JOIN usuario ON Reporte.usuario_reporta = Usuario.username
+        INNER JOIN Categoria ON Usuario.categoria = Categoria.idCategoria
+        WHERE usuario_reporta='$username' and reporte.estado = '$estado' AND (fecha_reporte BETWEEN '$fechainicio' AND '$fechafin 23:59:59')
+        ORDER BY fecha_reporte DESC";
+    }
+    else{
+        $select_query = "SELECT folio, fecha_reporte AS fecha, descripcion, tipo_reporte.nombre AS tipo, estado.nombre AS estado, IF(usuario_responde='root', 'Aún no asignado', usuario_responde) AS usuario, IF(fecha_respuesta IS NULL, 'Aún no respondido', fecha_respuesta) AS fecha_respuesta, IF(respuesta IS NULL, 'Aún no hay respuesta', respuesta) AS respuesta FROM reporte
+        INNER JOIN Tipo_reporte ON reporte.tipo = tipo_reporte.idTipo
+        INNER JOIN estado ON reporte.estado = estado.idEstado
+        INNER JOIN usuario ON Reporte.usuario_reporta = Usuario.username
+        INNER JOIN Categoria ON Usuario.categoria = Categoria.idCategoria
+        WHERE usuario_reporta='$username' and reporte.estado = '$estado' AND (fecha_respuesta BETWEEN '$fechainicio' AND '$fechafin 23:59:59')
+        ORDER BY fecha_reporte DESC";
+    }
+    
     $result = $mysqli->query($select_query);
     if (!$result) {
         echo "";
@@ -98,32 +155,18 @@ function verHistorial($username){
 
 }
 
-function cancelarReporte($folio){
+// Cancelar solicitud
+function cancelarSolicitud($folio){
     global $mysqli;
     $query = "UPDATE Reporte SET estado='4' WHERE folio='$folio' and estado != 4  LIMIT 1";
     // Se llama la variable de conexión y se ejecuta el query
     $result = $mysqli->query($query);
     // Si se modifico con exito
     if ($result) {
-        echo "Reporte con folio ".$folio." cancelado";
+        echo "Solicitud con folio ".$folio." cancelada";
         // Si no se modifico con exito
     } else {
-        echo "No fué posible cancelar este reporte";
-    }
-}
-
-// Asignar tarea
-function asignar($folio,$usuario){
-    global $mysqli;
-    $query = "UPDATE Reporte SET usuario_responde='$usuario', estado='2' WHERE folio='$folio' and estado='1' LIMIT 1";
-    // Se llama la variable de conexión y se ejecuta el query
-    $result = $mysqli->query($query);
-    // Si se modifico con exito
-    if ($result) {
-        echo "Reporte con folio ".$folio." asignado a ".$usuario;
-        // Si no se modifico con exito
-    } else {
-        echo "No fué posible asignar esta tarea";
+        echo "No fué posible cancelar la solicitud, por favor reintente";
     }
 }
 

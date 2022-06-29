@@ -76,10 +76,12 @@ if (isset($_SESSION['username']) && isset($_SESSION['tipo']) && $_SESSION['tipo'
         <div class="content">
             <h1>Nuevo reporte</h1>
                 <p>
+                    
                     <h4>Tipo de problema</h4>
-                    <select name="tipo" id="tipo" class="form-reporte-select">
+                    <select name="tipo" id="tipo" class="form-reporte-select in">
                         <option value="0">Seleccione</option>
                     </select>
+                   
                 </p>
                 <p>
                     <h4>Descripción del problema</h4>
@@ -89,9 +91,7 @@ if (isset($_SESSION['username']) && isset($_SESSION['tipo']) && $_SESSION['tipo'
                 <br>
                 <br>
                 <p>
-                    <button type="submit" class="form-reporte-btn" id="btn-add"> <i class="fa-solid fa-floppy-disk"></i> Guardar reporte</button>
-                    <div id="snackbarok">Reporte guardado</div>
-                    <div id="snackbarno">Error al guardar el reporte, reintente</div>
+                    <button type="submit" class="btn" id="btn-add"> <i class="fa-solid fa-floppy-disk"></i> Guardar reporte</button>
                 </p>
 
         </div>

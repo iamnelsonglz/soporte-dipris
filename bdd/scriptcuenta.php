@@ -10,16 +10,6 @@ if (isset($_GET['select'])) {
     verCuenta($username);
 }
 
-// Opción para mostrar los departamentos a seleccionar
-else if (isset($_GET['depto'])) {
-    verDepto();
-}
-
-// Opción para mostrar los tipos de usuario a seleccionar
-else if (isset($_GET['tipo'])) {
-    verTipo();
-}
-
 // Condición para modificar usuario
 else if (isset($_POST['nombre_mod'])) {
     $username = $_SESSION['username'];
@@ -27,9 +17,7 @@ else if (isset($_POST['nombre_mod'])) {
     $nombre = $_POST['nombre_mod'];
     $paterno = $_POST['paterno'];
     $materno = $_POST['materno'];
-    $departamento = $_POST['departamento'];
-    $tipo = $_POST['tipo'];
-    mod($username, $password, $nombre, $paterno, $materno, $departamento, $tipo);
+    mod($username, $password, $nombre, $paterno, $materno);
 }
 
 else{
@@ -42,7 +30,8 @@ function verCuenta($username)
 {
     global $mysqli;
     if (!empty($username)) {
-        $search_query = "SELECT Usuario.username,Usuario.password,Usuario.nombre,Usuario.apellidoPaterno,Usuario.apellidoMaterno,departamento.idDepartamento,departamento.nombre AS departamento_nombre,Categoria.idCategoria AS tipo_id,Categoria.nombre AS tipo_nombre FROM Usuario INNER JOIN departamento on usuario.departamento = departamento.idDepartamento INNER JOIN Categoria on Usuario.categoria = Categoria.idCategoria WHERE Usuario.username='$username';";
+        $search_query = "SELECT Usuario.username,Usuario.password,Usuario.nombre,Usuario.apellidoPaterno,Usuario.apellidoMaterno FROM Usuario 
+        WHERE Usuario.username='$username';";
         $result = $mysqli->query($search_query);
         if (!$result) {
             die('Error de consulta ');
@@ -56,10 +45,6 @@ function verCuenta($username)
                 'nombre' => $row['nombre'],
                 'paterno' => $row['apellidoPaterno'],
                 'materno' => $row['apellidoMaterno'],
-                'iddepartamento' => $row['idDepartamento'],
-                'departamento' => $row['departamento_nombre'],
-                'idtipo' => $row['tipo_id'],
-                'tipo' => $row['tipo_nombre']
             );
         }
         $jsonstring = json_encode($json);
@@ -67,53 +52,12 @@ function verCuenta($username)
     }
 }
 
-// Función para rellenar la lista desplegable de departamentos
-function verDepto(){
-    global $mysqli;
-    $select_query = "SELECT * FROM Departamento ORDER BY nombre ASC";
-    $result = $mysqli->query($select_query);
-    if (!$result) {
-        die('Error de consulta');
-    }
-
-    $json = array();
-    while ($row = mysqli_fetch_array($result)) {
-        $json[] = array(
-            'idDepartamento' => $row['idDepartamento'],
-            'nombre' => $row['nombre']
-        );
-    }
-    $jsonstring = json_encode($json);
-    echo $jsonstring;
-}
-
-// Función para rellenar la lista desplegable de tipos de personal
-function verTipo(){
-    global $mysqli;
-    $select_query = "SELECT * FROM Categoria ORDER BY nombre ASC";
-    $result = $mysqli->query($select_query);
-    if (!$result) {
-        die('Error de consulta');
-    }
-
-    $json = array();
-    while ($row = mysqli_fetch_array($result)) {
-        $json[] = array(
-            'id' => $row['idCategoria'],
-            'nombre' => $row['nombre']
-        );
-    }
-    $jsonstring = json_encode($json);
-    echo 
-    $jsonstring;
-}
-
 // Función para modificar usuario
-function mod($username, $password, $nombre, $paterno, $materno, $departamento, $tipo)
+function mod($username, $password, $nombre, $paterno, $materno)
 {
     global $mysqli;
     // Se crea la consulta para modificar departamento
-    $sql_mod = "UPDATE Usuario SET password='$password', nombre='$nombre', apellidoPaterno='$paterno', apellidoMaterno='$materno', departamento='$departamento', categoria='$tipo' WHERE username='$username' LIMIT 1";
+    $sql_mod = "UPDATE Usuario SET password='$password', nombre='$nombre', apellidoPaterno='$paterno', apellidoMaterno='$materno' WHERE username='$username' LIMIT 1";
     // Se llama la variable de conexión y se ejecuta el query
     $result = $mysqli->query($sql_mod);
     // Si se modifico con exito
