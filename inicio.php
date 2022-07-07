@@ -160,46 +160,133 @@ if (isset($_SESSION['username']) && isset($_SESSION['tipo'])) {
             // Si el usuario es administrador 
             if ($_SESSION['tipo'] == '1') {
             ?>
-                
                 <!-- Tabla con reportes registrados -->
                 <div class="content">
-                <div>
-                <fieldset>
-                    <legend class="txt"> <i class="fa-solid fa-circle-check"></i> Solicitudes finalizadas</legend>
-                    <ul class="scoreboard-fin txt in">
-                        <li>0 solicitudes finalizadas hoy</li>
-                    </ul>
-                </fieldset>
-                <fieldset>
-                    <legend class="txt"> <i class="fa-solid fa-bell-concierge"></i> Solicitudes en atención</legend>
-                    <ul class="scoreboard-aten txt in">
-                        <li>0 solicitudes en atención</li>
-                    </ul>
-                </fieldset>
-                <fieldset>
-                    <legend class="txt"> <i class="fa-solid fa-clock"></i> Solicitudes en espera</legend>
-                    <div id="totalespera"><label class="txt"> <i class="fa-solid fa-clipboard-list"></i> Total: 0</label></div>
-                </fieldset>    
+
+                <div class="card">
+                    <div class="tools">
+                        <div class="circle">
+                            <span class="red box"></span>
+                        </div>
+                        <div class="circle">
+                            <span class="yellow box"></span>
+                        </div>
+                        <div class="circle">
+                            <span class="green box"></span>
+                        </div>
+                        <div>
+                            <span class="mini-txt"><b>Solicitudes en espera</b></span>
+                        </div>
+                    </div>
+                    <div class="card__content">
+                        <ul class="scoreboard-esp mini-txt">
+                            
+                            <li><i class="fa-solid fa-clock"></i> Total: 0</li>
+                        </ul>
+                    </div>
                 </div>
+
+                <div class="card">
+                    <div class="tools">
+                        <div class="circle">
+                            <span class="red box"></span>
+                        </div>
+                        <div class="circle">
+                            <span class="yellow box"></span>
+                        </div>
+                        <div class="circle">
+                            <span class="green box"></span>
+                        </div>
+                        <div>
+                            <span class="mini-txt"><b>Solicitudes finalizadas hoy</b></span>
+                        </div>
+                    </div>
+                    <div class="card__content">
+                        <ul class="scoreboard-fin mini-txt">
+                            <li><i class="fa-solid fa-circle-check"></i> Total: 0</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="tools">
+                        <div class="circle">
+                            <span class="red box"></span>
+                        </div>
+                        <div class="circle">
+                            <span class="yellow box"></span>
+                        </div>
+                        <div class="circle">
+                            <span class="green box"></span>
+                        </div>
+                        <div>
+                            <span class="mini-txt"><b>Solicitudes en atención</b></span>
+                        </div>
+                    </div>
+                    <div class="card__content">
+                        <ul class="scoreboard-aten mini-txt">
+                            
+                            <li><i class="fa-solid fa-bell-concierge"></i> Total: 0</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <br>
                 <br>
                 <form action="/reportes/" method="POST" id="formulario">
-                    <fieldset>
-                        <legend class="txt">Filtar solicitudes por estado</legend>
-                            <select name="where" class="in" id="where"></select>
-                            <button class="btn" id="estado-filter"><i class="fa-solid fa-filter"></i> Filtrar</button>
-                    </fieldset>
-                    <fieldset>
-                        <legend class="txt">Filtrar solicitudes por fecha</legend>
-                            
-                            <label for="fechainicio" class="txt">Fecha inicio</label>
-                            <input type="date" class="in" name="fechainicio" id="fechainicio"/>
-                            <label for="fechafin" class="txt">Fecha fin</label>
-                            <input type="date" class="in" name="fechafin"  id="fechafin"/>
-                            <button class="btn" id="filter-button"><i class="fa-solid fa-filter"></i> Filtrar</button>
-                            <button type="submit" class="btn" id="filter-pdf-button"><i class="fa-solid fa-file-pdf"></i> Generar documento</button>
-                            
-                    </fieldset>
+
+                <div class="card">
+                    <div class="tools">
+                        <div class="circle">
+                            <span class="red box"></span>
+                        </div>
+                        <div class="circle">
+                            <span class="yellow box"></span>
+                        </div>
+                        <div class="circle">
+                            <span class="green box"></span>
+                        </div>
+                        <div>
+                            <span class="mini-txt"><b>Filtrar solicitudes por estado</b></span>
+                        </div>
+                    </div>
+                    <div class="card__content">
+                        <select name="where" class="in media-in" id="where"></select>
+                        <button class="btn media-btn" id="estado-filter"><i class="fa-solid fa-filter"></i> Filtrar</button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="tools">
+                        <div class="circle">
+                            <span class="red box"></span>
+                        </div>
+                        <div class="circle">
+                            <span class="yellow box"></span>
+                        </div>
+                        <div class="circle">
+                            <span class="green box"></span>
+                        </div>
+                        <div>
+                            <span class="mini-txt"><b>Filtrar solicitudes por fecha</b></span>
+                        </div>
+                    </div>
+                    <div class="card__content">
+                        
+                        <label for="fechainicio" class="txt mini-txt">Fecha inicio</label>
+                        <input type="date" class="in mini-in" name="fechainicio" id="fechainicio"/>
+                        
+                        <label for="fechafin" class="txt mini-txt">Fecha fin</label>
+                        <input type="date" class="in mini-in" name="fechafin"  id="fechafin"/>
+                        
+                        <button class="btn mini-in" id="filter-button"><i class="fa-solid fa-filter"></i> Filtrar</button>
+                        <button type="submit" class="btn mini-in" id="filter-pdf-button"><i class="fa-solid fa-file-pdf"></i> Generar reporte</button>
+                        
+                    </div>
+                </div>
+
                 </form>
+                
                     <p><br></p>   
                     <div id="loadtabla" class="loading">
                         <svg viewBox="25 25 50 50">
@@ -231,31 +318,101 @@ if (isset($_SESSION['username']) && isset($_SESSION['tipo'])) {
                 <!-- Tabla con reportes registrados -->
                 
                 <div class="content">
-                    <div>
-                        <fieldset>
-                            <legend class="txt"> <i class="fa-solid fa-clock"></i> Solicitudes en espera</legend>
-                            <div id="totalespera"><label class="txt"> <i class="fa-solid fa-clipboard-list"></i> Total: 0</label></div>
-                        </fieldset> 
-                        <fieldset>
-                            <legend class="txt"> <i class="fa-solid fa-circle-check"></i> Solicitudes finalizadas</legend>
-                            <div id="totalfinalizado"><label class="txt"> <i class="fa-solid fa-clipboard-list"></i> Total: 0</label></div>
-                        </fieldset>
-                        <fieldset>
-                            <legend class="txt"> <i class="fa-solid fa-bell-concierge"></i> Solicitudes en atención</legend>
-                            <div id="totalatencion"><label class="txt"> <i class="fa-solid fa-clipboard-list"></i> Total: 0</label></div>
-                        </fieldset>
+                <div class="card">
+                    <div class="tools">
+                        <div class="circle">
+                            <span class="red box"></span>
+                        </div>
+                        <div class="circle">
+                            <span class="yellow box"></span>
+                        </div>
+                        <div class="circle">
+                            <span class="green box"></span>
+                        </div>
+                        <div>
+                            <span class="mini-txt"><b>Solicitudes en espera</b></span>
+                        </div>
                     </div>
-                    <br>
-                    <fieldset>
-                        <legend class="txt">Filtrar solicitudes por fecha</legend>
-                            <form action="/reportes/" method="POST" id="formulario">
-                            <label for="fechainicio" class="txt">Fecha inicio</label>
-                            <input type="date" class="in" name="fechainicio" id="fechainicio"/>
-                            <label for="fechafin" class="txt">Fecha fin</label>
-                            <input type="date" class="in" name="fechafin"  id="fechafin"/>
-                            <button type="button" class="btn" id="filter-button"><i class="fa-solid fa-filter"></i> Filtrar</button>
-                            </form>
-                    </fieldset>
+                    <div class="card__content">
+                        <ul class="scoreboard-esp mini-txt">
+                            
+                            <li><i class="fa-solid fa-clock"></i> Total: 0</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="tools">
+                        <div class="circle">
+                            <span class="red box"></span>
+                        </div>
+                        <div class="circle">
+                            <span class="yellow box"></span>
+                        </div>
+                        <div class="circle">
+                            <span class="green box"></span>
+                        </div>
+                        <div>
+                            <span class="mini-txt"><b>Solicitudes finalizadas hoy</b></span>
+                        </div>
+                    </div>
+                    <div class="card__content">
+                        <ul class="scoreboard-fin mini-txt">
+                            <li><i class="fa-solid fa-circle-check"></i> Total: 0</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="tools">
+                        <div class="circle">
+                            <span class="red box"></span>
+                        </div>
+                        <div class="circle">
+                            <span class="yellow box"></span>
+                        </div>
+                        <div class="circle">
+                            <span class="green box"></span>
+                        </div>
+                        <div>
+                            <span class="mini-txt"><b>Solicitudes en atención</b></span>
+                        </div>
+                    </div>
+                    <div class="card__content">
+                        <ul class="scoreboard-aten mini-txt">
+                            
+                            <li><i class="fa-solid fa-bell-concierge"></i> Total: 0</li>
+                        </ul>
+                    </div>
+                </div>
+                <br>
+                <br>
+                <div class="card">
+                    <div class="tools">
+                        <div class="circle">
+                            <span class="red box"></span>
+                        </div>
+                        <div class="circle">
+                            <span class="yellow box"></span>
+                        </div>
+                        <div class="circle">
+                            <span class="green box"></span>
+                        </div>
+                        <div>
+                            <span class="mini-txt"><b>Filtrar solicitudes por fecha</b></span>
+                        </div>
+                    </div>
+                    <div class="card__content">
+                        <label for="fechainicio" class="mini-txt">Fecha inicio</label>
+                        <input type="date" class="mini-in" name="fechainicio" id="fechainicio"/>
+                        
+                        <label for="fechafin" class="mini-txt">Fecha fin</label>
+                        <input type="date" class="mini-in" name="fechafin"  id="fechafin"/>
+                        
+                        <button class="mini-btn" id="filter-button"><i class="fa-solid fa-filter"></i> Filtrar</button>
+                        <button type="submit" class="mini-btn" id="filter-pdf-button"><i class="fa-solid fa-file-pdf"></i> Generar documento</button>
+                    </div>
+                </div>
                     <p><br></p>   
                     <div id="loadtabla" class="loading">
                         <svg viewBox="25 25 50 50">

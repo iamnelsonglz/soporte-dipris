@@ -19,9 +19,9 @@ $(document).ready(function () {
                 personas.forEach(persona => {
                     console.log("-->"+persona);
                     template += `
-                    <label class="txt"> <i class="fa-solid fa-clipboard-list"></i> Total: ${persona.total}</label>
+                    <label class="txt"> <i class="fa-solid fa-circle-check"></i> Total: ${persona.total}</label>
                     `;
-                    $('#totalfinalizado').html(template);
+                    $('.scoreboard-fin').html(template);
                     
                 })
             }    
@@ -37,9 +37,9 @@ $(document).ready(function () {
                 let template = '';
                 personas.forEach(persona => {
                     template += `
-                    <label class="txt"> <i class="fa-solid fa-clipboard-list"></i> Total: ${persona.total}</label>
+                    <label class="txt"> <i class="fa-solid fa-clock"></i> Total: ${persona.total}</label>
                     `;
-                    $('#totalespera').html(template);
+                    $('.scoreboard-esp').html(template);
                 })
             }    
         }); 
@@ -59,9 +59,9 @@ $(document).ready(function () {
                 personas.forEach(persona => {
                     console.log("-->"+persona);
                     template += `
-                    <label class="txt"> <i class="fa-solid fa-clipboard-list"></i> Total: ${persona.total}</label>
+                    <label class="txt"> <i class="fa-solid fa-bell-concierge"></i> Total: ${persona.total}</label>
                     `;
-                    $('#totalatencion').html(template);
+                    $('.scoreboard-aten').html(template);
                     
                 })
             }    

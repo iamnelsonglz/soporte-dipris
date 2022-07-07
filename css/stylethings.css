@@ -14,6 +14,70 @@ svg {
     animation: dash4 1.5s ease-in-out infinite;
    }
    
+/* From uiverse.io by @EmmaxPlay */
+.card {
+    display:inline-block;
+    overflow-y: scroll;
+    width: auto;
+    height: 4.5em !important;
+    padding: 0.5em !important;
+    background-color: #F8FBFE;
+    border-radius: 8px;
+    z-index: 1;
+    margin-right: 2em;
+   }
+   
+   .tools {
+    display: flex;
+    align-items: left;
+    padding: 0.1em;
+   }
+   
+   .circle {
+    padding: 0 4px;
+   }
+   
+   .box {
+    display: inline-block;
+    align-items: center;
+    width: 0.5em;
+    height: 0.5em;
+    /*padding: 0.2em;*/
+    border-radius: 50%;
+   }
+   
+   .red {
+    background-color: #ff605c;
+   }
+   
+   .yellow {
+    background-color: #ffbd44;
+   }
+   
+   .green {
+    background-color: #00ca4e;
+   }
+   
+   /* width */
+    ::-webkit-scrollbar {
+        width: 10px;
+    }
+  
+    /* Track */
+    ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+  
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+        background: #888;
+    }
+  
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+
    @keyframes rotate4 {
     100% {
      transform: rotate(360deg);

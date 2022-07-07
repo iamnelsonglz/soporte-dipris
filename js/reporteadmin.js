@@ -40,7 +40,7 @@ $(document).ready(function () {
                     template += `
                     <label class="txt"> <i class="fa-solid fa-clipboard-list"></i> Total: ${persona.total}</label>
                     `;
-                    $('#totalespera').html(template);
+                    $('.scoreboard-esp').html(template);
                 })
             }    
         }); 
@@ -171,10 +171,10 @@ $(document).ready(function () {
                             <td>${persona.tipo}</td>
                             <td>${persona.usuario}</td>
                             <td>
-                            <select name="user-soporte" id="${persona.folio}" class="support-user">
+                            <select name="user-soporte" id="${persona.folio}" class="support-user l-media-in">
                             <option value="${persona.user}">${persona.responde}</option>
                             </select>
-                            <button type="submit" folio="${persona.folio}" class="assign-button btn" title="Presione para asignar tarea "> <i class="fa-solid fa-check"></i> Re-asignar </button>
+                            <button type="submit" folio="${persona.folio}" class="btn assign-button l-media-btn" title="Presione para asignar tarea "> <i class="fa-solid fa-check"></i> Re-asignar </button>
                             </td>
                             <td>
                             <button type="submit" folio="${persona.folio}" class="pdf-button btn" title="Presione para generar pdf "> <i class="fa-solid fa-file-pdf"></i> Descargar solicitud</button>
@@ -218,7 +218,7 @@ $(document).ready(function () {
                             <td>${persona.fecha}</td>
                             <td>${persona.tipo}</td>
                             <td>${persona.usuario}</td>
-                            <td></td>
+                            <td>${persona.responde}</td>
                             <td>
                             <button type="submit" folio="${persona.folio}" class="pdf-button btn" title="Presione para generar pdf "> <i class="fa-solid fa-file-pdf"></i> Descargar solicitud</button>
                             </td>
@@ -399,7 +399,7 @@ $(document).ready(function () {
                 if (response === '[]') {
                     template += `
                     <tr>
-                    <td>No hay reportes pendientes de atención</td>
+                    <td>No hay reportes en atención</td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -415,17 +415,19 @@ $(document).ready(function () {
                             <td>${persona.tipo}</td>
                             <td>${persona.usuario}</td>
                             <td>
-                            <select name="user-soporte" id="${persona.folio}" class="support-user in">
+                            <select name="user-soporte" id="${persona.folio}" class="support-user l-media-in">
+                            <option value="${persona.user}">${persona.responde}</option>
                             </select>
+                            <button type="submit" folio="${persona.folio}" class="btn assign-button l-media-btn" title="Presione para asignar tarea "> <i class="fa-solid fa-check"></i> Re-asignar </button>
                             </td>
                             <td>
-                            <button type="submit" folio="${persona.folio}" class="assign-button btn" title="Presione para asignar tarea "> <i class="fa-solid fa-check"></i> Asignar </button>
+                            <button type="submit" folio="${persona.folio}" class="pdf-button btn" title="Presione para generar pdf "> <i class="fa-solid fa-file-pdf"></i> Descargar solicitud</button>
                             </td>
                         </tr>
                     `;
                         $('#table-admin').html(template);
                     })
-                    selectSoporte();
+                   
                 }
 
             }
@@ -446,7 +448,7 @@ $(document).ready(function () {
                 if (response === '[]') {
                     template += `
                     <tr>
-                    <td>No hay reportes pendientes de atención</td>
+                    <td>No hay reportes finalizados</td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -462,12 +464,14 @@ $(document).ready(function () {
                             <td>${persona.tipo}</td>
                             <td>${persona.usuario}</td>
                             <td>${persona.responde}</td>
-                            <td></td>
+                            <td>
+                            <button type="submit" folio="${persona.folio}" class="pdf-button btn" title="Presione para generar pdf "> <i class="fa-solid fa-file-pdf"></i> Descargar solicitud</button>
+                            </td>
                         </tr>
                     `;
                         $('#table-admin').html(template);
                     })
-                    selectSoporte();
+                   
                 }
 
             }
@@ -488,7 +492,7 @@ $(document).ready(function () {
                 if (response === '[]') {
                     template += `
                     <tr>
-                    <td>No hay reportes pendientes de atención</td>
+                    <td>No hay reportes cancelados</td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -503,18 +507,12 @@ $(document).ready(function () {
                             <td>${persona.fecha}</td>
                             <td>${persona.tipo}</td>
                             <td>${persona.usuario}</td>
-                            <td>
-                            <select name="user-soporte" id="${persona.folio}" class="support-user in">
-                            </select>
-                            </td>
-                            <td>
-                            <button type="submit" folio="${persona.folio}" class="assign-button btn" title="Presione para asignar tarea "> <i class="fa-solid fa-check"></i> Asignar </button>
-                            </td>
+                            <td>No asignado</td>
+                            <td>Sin acción</td>
                         </tr>
                     `;
                         $('#table-admin').html(template);
                     })
-                    selectSoporte();
                 }
 
             }
@@ -566,6 +564,9 @@ $(document).ready(function () {
               
             }
         }
+        finish();
+        wait();
+        attention();
     })
 
     // filtrar reporte
@@ -583,7 +584,9 @@ $(document).ready(function () {
         }else{
 
         }
-         
+        finish();
+        wait();
+        attention();
     })
 
     // Generar pdf de reporte
@@ -599,7 +602,8 @@ $(document).ready(function () {
         e.preventDefault();
         let fechainicio = $("#fechainicio").val();
         let fechafin = $("#fechafin").val();
-        let filtro = $('#where').val();
+        let filtro = $("#where").val();
+        console.log(filtro);
 
         if(fechainicio.length <= 0 || fechafin.length <= 0){
            
@@ -624,6 +628,9 @@ $(document).ready(function () {
                 }
             }
         }
+        finish();
+        wait();
+        attention();
     })
 
     // Generar pdf de solicitudes filtradas
@@ -634,12 +641,12 @@ $(document).ready(function () {
         let filtro = $('#where').val();
         
         if(fechainicio.length <= 0 || fechafin.length <= 0){
-            
+            e.preventDefault();
             alert("Es necesario seleccionar fecha de inicio y fecha de fin");
             
         }else{
             if(Date.parse(fechafin) < Date.parse(fechainicio)) {
-                
+                e.preventDefault();
                 alert("La fecha final debe ser mayor o igual a la fecha de inicio");
                
             }else{

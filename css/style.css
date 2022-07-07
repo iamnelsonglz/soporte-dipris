@@ -13,6 +13,7 @@
     --finalizado-color: #44aa00;
     --fuente-texto: 'PT Sans', sans-serif;
     --font-size: 1em;
+    --mini-font-size: 0.8em;
     --font-weight: 400;
     --line-height: 1.5;
     --text-color: #212529;
@@ -102,9 +103,24 @@ h1, h2, h3, h4{
     background: var(--principal-color-light);
     color: var(--text-color);
     border: 0;
+    font-size: var(--font-size);
     padding: 0.5em;
     height: auto;
     width: auto;
+}
+
+.mini-btn{
+    font-size: var(--mini-font-size) !important;
+}
+
+.media-btn{
+    font-size: var(--mini-font-size) !important;
+    width: 45% !important;
+}
+
+.l-media-btn{
+    font-size: var(--font-size) !important;
+    width: 45% !important;
 }
 
 .btn:hover,
@@ -354,16 +370,44 @@ select {
 .in{
     background: transparent;
     border: none;
-    font-size: var(--font-size);
-    
+    font-size: var(--font-size); 
     margin-right: 1em;
     width: auto;
     border-bottom: 1px solid var(--principal-color-light);
 }
 
+.mini-in{
+    font-size: var(--mini-font-size) !important;
+    padding: 0.5em !important;
+}
+
+.media-in{
+    font-size:  var(--mini-font-size) !important;
+    padding: 0.5em !important;
+    width: 45% !important;
+}
+
+.l-media-in{
+    font-size: var(--font-size) !important;
+    width: 45% !important;
+}
+
 .txt{
     font-size: var(--font-size);
 }
+
+.mini-txt{
+    padding: 0.5em !important;
+    font-size: var(--mini-font-size) !important;
+}
+
+.media-txt{
+    padding: 0.5em !important;
+    width: 45% !important;
+    font-size: var(--mini-font-size) !important;
+}
+
+
 
 /* Pantalla responsiva mobile */
 @media only screen and (max-width: 600px){
