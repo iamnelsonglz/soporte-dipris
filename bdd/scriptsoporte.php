@@ -399,7 +399,7 @@ function filtrarReportesFinalizado($fechainicio,$fechafin,$username){
     INNER JOIN usuario ON Reporte.usuario_reporta = Usuario.username
     INNER JOIN Categoria ON Usuario.categoria = Categoria.idCategoria
     WHERE estado = '3' and usuario_responde = '$username' AND (fecha_respuesta BETWEEN '$fechainicio' AND '$fechafin 23:59:59')
-    ORDER BY Usuario.categoria ASC, Tipo_reporte.prioridad ASC, fecha_reporte DESC";
+    ORDER BY Usuario.categoria ASC, Tipo_reporte.prioridad ASC, fecha_respuesta DESC";
     $result = $mysqli->query($select_query);
     if (!$result) {
         echo "";

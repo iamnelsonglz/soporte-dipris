@@ -271,7 +271,7 @@ function verReportesFinalizado(){
     INNER JOIN usuario AS Usuarioa ON Reporte.usuario_reporta = Usuarioa.username
     INNER JOIN usuario AS Usuariob ON Reporte.usuario_responde = Usuariob.username
     INNER JOIN Categoria ON Usuarioa.categoria = Categoria.idCategoria
-    WHERE estado = '3'  AND fecha_reporte >= CURDATE()
+    WHERE estado = '3'  AND fecha_respuesta >= CURDATE()
     ORDER BY Usuarioa.categoria ASC, Tipo_reporte.prioridad ASC, fecha_reporte DESC";
     $result = $mysqli->query($select_query);
     if (!$result) {
@@ -384,7 +384,7 @@ function filtrarReportesFinalizado($fechainicio,$fechafin){
     INNER JOIN usuario AS Usuarioa ON Reporte.usuario_reporta = Usuarioa.username
     INNER JOIN usuario AS Usuariob ON Reporte.usuario_responde = Usuariob.username
     INNER JOIN Categoria ON Usuarioa.categoria = Categoria.idCategoria
-    WHERE estado = '3' AND (fecha_reporte BETWEEN '$fechainicio' AND '$fechafin 23:59:59')
+    WHERE estado = '3' AND (fecha_respuesta BETWEEN '$fechainicio' AND '$fechafin 23:59:59')
     ORDER BY Usuarioa.categoria ASC, Tipo_reporte.prioridad ASC, fecha_reporte DESC";
     $result = $mysqli->query($select_query);
     if (!$result) {

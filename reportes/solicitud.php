@@ -115,21 +115,23 @@ if (!$result) {
         $pdf->SetTitle($title);
         $pdf->Ln(10);
         $pdf->Cell(5);
-        $pdf->MultiCell(180,7,utf8_decode("Por medio del presente documento, se extiende que el C. $nombre $paterno $materno ha realizado una solicitud de atención a un bien informático el día $semana_reporte $dia_reporte de $mes_reporte de $reporteyear de tipo $tipo y con folio $folio."),0,'J',0);
+        $pdf->MultiCell(180,7,utf8_decode("Por medio del presente documento, se comunica que el C. $nombre $paterno $materno ha realizado una solicitud de atención a un bien informático el día $semana_reporte $dia_reporte de $mes_reporte de $reporteyear de tipo $tipo y con folio $folio."),0,'J',0);
         $pdf->Ln(10);
         $pdf->Cell(5);
         $pdf->Cell(180, 7, utf8_decode("El solicitante indico lo siguiente:"), 0, 1, "L");
         $pdf->SetFont('Arial','I',12);
         $pdf->Cell(5);
         $pdf->MultiCell(180,7,utf8_decode("$descripcion."),0,'J',0);
-        $pdf->SetFont('Arial','I',12);
-        $pdf->Ln(50);
+        $pdf->SetFont('Arial','B',12);
+        $pdf->Ln(40);
         $pdf->Cell(5);
-        $pdf->Cell(180, 7, utf8_decode("Atentamente:"), 0, 1, "L");
+        $pdf->Cell(180, 7, utf8_decode("ATENTAMENTE:"), 0, 1, "C");
+        $pdf->Ln(15);
         $pdf->Cell(5);
-        $pdf->Cell(180, 7, utf8_decode("Luis Daniel Aguilar Ruíz."), 0, 1, "L");
+        $pdf->SetFont('Arial','',12);
+        $pdf->Cell(180, 7, utf8_decode("Luis Daniel Aguilar Ruíz."), 0, 1, "C");
         $pdf->Cell(5);
-        $pdf->Cell(180, 7, utf8_decode("Coordinador de Informática."), 0, 1, "L");
+        $pdf->Cell(180, 7, utf8_decode("Coordinador de Informática."), 0, 1, "C");
     };
 }
 

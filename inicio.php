@@ -162,7 +162,6 @@ if (isset($_SESSION['username']) && isset($_SESSION['tipo'])) {
             ?>
                 <!-- Tabla con reportes registrados -->
                 <div class="content">
-
                 <div class="card">
                     <div class="tools">
                         <div class="circle">
@@ -399,18 +398,42 @@ if (isset($_SESSION['username']) && isset($_SESSION['tipo'])) {
                             <span class="green box"></span>
                         </div>
                         <div>
+                            <span class="mini-txt"><b>Filtrar solicitudes por estado</b></span>
+                        </div>
+                    </div>
+                    <div class="card__content">
+                        <input checked type="radio" name="radOverclock" id="radio1" class="in mini-in" />
+                        <label for="radio1" class="mini-txt">Espera y Atención</label>
+                        <input type="radio" name="radOverclock" id="radio2" class="in mini-in"/>
+                        <label for="radio2" class="mini-txt">Finalizado</label>
+                        <button class="btn mini-in" id="estado-filter"><i class="fa-solid fa-filter"></i> Filtrar</button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="tools">
+                        <div class="circle">
+                            <span class="red box"></span>
+                        </div>
+                        <div class="circle">
+                            <span class="yellow box"></span>
+                        </div>
+                        <div class="circle">
+                            <span class="green box"></span>
+                        </div>
+                        <div>
                             <span class="mini-txt"><b>Filtrar solicitudes por fecha</b></span>
                         </div>
                     </div>
                     <div class="card__content">
-                        <label for="fechainicio" class="mini-txt">Fecha inicio</label>
-                        <input type="date" class="mini-in" name="fechainicio" id="fechainicio"/>
                         
-                        <label for="fechafin" class="mini-txt">Fecha fin</label>
-                        <input type="date" class="mini-in" name="fechafin"  id="fechafin"/>
+                        <label for="fechainicio" class="txt mini-txt">Fecha inicio</label>
+                        <input type="date" class="in mini-in" name="fechainicio" id="fechainicio"/>
                         
-                        <button class="mini-btn" id="filter-button"><i class="fa-solid fa-filter"></i> Filtrar</button>
-                        <button type="submit" class="mini-btn" id="filter-pdf-button"><i class="fa-solid fa-file-pdf"></i> Generar documento</button>
+                        <label for="fechafin" class="txt mini-txt">Fecha fin</label>
+                        <input type="date" class="in mini-in" name="fechafin"  id="fechafin"/>
+                        
+                        <button class="btn mini-in" id="filter-button"><i class="fa-solid fa-filter"></i> Filtrar</button>
                     </div>
                 </div>
                     <p><br></p>   

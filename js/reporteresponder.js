@@ -71,14 +71,13 @@ $(document).ready(function () {
     var folio = params.get('folio');
     let respuesta = $('#answer').val();
     if ((folio.val <= 0) || (respuesta.trim()).length <= 0) {
-        //snackno();
+        alert('Ingrese un respuesta valida');
     } else {
         const postData = {
             responder: folio,
             respuesta: respuesta,
         };
         $.post('../bdd/scriptsoporte.php', postData, function (response) {
-            //snackok();
             alert(response);
             window.location.href = "../inicio.php";
         });

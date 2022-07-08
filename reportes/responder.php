@@ -92,12 +92,6 @@ if (isset($_SESSION['username']) && isset($_SESSION['tipo']) && $_SESSION['tipo'
                     <span class="counter">250</span>
                     <button type="submit" class="form-reporte-btn" name="answer" id="btn-answer"> <i class="fa-solid fa-floppy-disk"></i> Guardar respuesta</button>
                 </div>
-                
-                    
-                    <div id="snackbarok">Reporte guardado</div>
-                    <div id="snackbarno">Error al guardar el reporte, reintente</div>
-                
-
         </div>
     </main>
     <script src="../js/mlateral.js"></script>

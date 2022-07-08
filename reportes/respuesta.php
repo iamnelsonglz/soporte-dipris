@@ -88,15 +88,8 @@ if (isset($_SESSION['username']) && isset($_SESSION['tipo']) && $_SESSION['tipo'
                 <div class="content-respuesta">
                 
                     <h4>Respuesta</h4>
-                    <textarea placeholder="Escriba la respuesta" maxlength="250" class="form-reporte-txtarea" id="answer" required></textarea>
-                    
+                    <textarea placeholder="Escriba la respuesta" maxlength="250" class="form-reporte-txtarea" id="answer" readonly></textarea>
                 </div>
-                
-                    
-                    <div id="snackbarok">Reporte guardado</div>
-                    <div id="snackbarno">Error al guardar el reporte, reintente</div>
-                
-
         </div>
     </main>
     <script src="../js/mlateral.js"></script>
