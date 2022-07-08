@@ -25,7 +25,7 @@ $(document).on('click', '#btn-add', function (e) {
     let tipo = $('#tipo').val();
     let describe = $('#describe').val();
     if ((tipo.val <= 0) || (describe.trim()).length <= 0) {
-        snackno();
+        alert('No se puede guardar una solicitud vacia');
     } else {
         const postData = {
             tipo: $('#tipo').val(),

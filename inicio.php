@@ -403,7 +403,7 @@ if (isset($_SESSION['username']) && isset($_SESSION['tipo'])) {
                     </div>
                     <div class="card__content">
                         <input checked type="radio" name="radOverclock" id="radio1" class="in mini-in" />
-                        <label for="radio1" class="mini-txt">Espera y Atención</label>
+                        <label for="radio1" class="mini-txt">Espera o Atención</label>
                         <input type="radio" name="radOverclock" id="radio2" class="in mini-in"/>
                         <label for="radio2" class="mini-txt">Finalizado</label>
                         <button class="btn mini-in" id="estado-filter"><i class="fa-solid fa-filter"></i> Filtrar</button>
@@ -469,30 +469,115 @@ if (isset($_SESSION['username']) && isset($_SESSION['tipo'])) {
             } else if ($_SESSION['tipo'] == 3) {
             ?>
             <div class="content">
-            <fieldset>
-                        <legend class="txt">Filtar solicitudes por estado</legend>
-                            <select name="where" class="in" id="where"></select>
-                            <button type="submit" class="btn" id="estado-filter"><i class="fa-solid fa-filter"></i> Filtrar</button>
-                    </fieldset>
-                    <fieldset>
-                        <legend class="txt">Filtrar solicitudes por fecha</legend>
-                            <form action="/reportes/" method="POST" id="formulario">
-                            <label for="fechainicio" class="txt">Fecha inicio</label>
-                            <input type="date" class="in" name="fechainicio" id="fechainicio"/>
-                            <label for="fechafin" class="txt">Fecha fin</label>
-                            <input type="date" class="in" name="fechafin"  id="fechafin"/>
-                            <button type="button" class="btn" id="filter-button"><i class="fa-solid fa-filter"></i> Filtrar</button>
-                            </form>
-                    </fieldset>
-                    <p><br></p>  
-            <button type="submit" class="btn" id="add-button"><i class="fa-solid fa-plus"></i> Agregar reporte</button>
-            <p><br></p>   
+
+            <div class="content">
+                <div class="card">
+                    <div class="tools">
+                        <div class="circle">
+                            <span class="red box"></span>
+                        </div>
+                        <div class="circle">
+                            <span class="yellow box"></span>
+                        </div>
+                        <div class="circle">
+                            <span class="green box"></span>
+                        </div>
+                        <div>
+                            <span class="mini-txt"><b>Solicitudes en espera</b></span>
+                        </div>
+                    </div>
+                    <div class="card__content">
+                        <ul class="scoreboard-esp mini-txt">
+                            
+                            <li><i class="fa-solid fa-clock"></i> Total: 0</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="tools">
+                        <div class="circle">
+                            <span class="red box"></span>
+                        </div>
+                        <div class="circle">
+                            <span class="yellow box"></span>
+                        </div>
+                        <div class="circle">
+                            <span class="green box"></span>
+                        </div>
+                        <div>
+                            <span class="mini-txt"><b>Solicitudes en atención</b></span>
+                        </div>
+                    </div>
+                    <div class="card__content">
+                        <ul class="scoreboard-aten mini-txt">
+                            
+                            <li><i class="fa-solid fa-bell-concierge"></i> Total: 0</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="tools">
+                        <div class="circle">
+                            <span class="red box"></span>
+                        </div>
+                        <div class="circle">
+                            <span class="yellow box"></span>
+                        </div>
+                        <div class="circle">
+                            <span class="green box"></span>
+                        </div>
+                        <div>
+                            <span class="mini-txt"><b>Filtrar solicitudes por estado</b></span>
+                        </div>
+                    </div>
+                    <div class="card__content">
+                        <input checked type="radio" name="radOverclock" id="radio1" class="in mini-in" />
+                        <label for="radio1" class="mini-txt">Espera o Atención</label>
+                        <input type="radio" name="radOverclock" id="radio2" class="in mini-in"/>
+                        <label for="radio2" class="mini-txt">Finalizado o Cancelado</label>
+                        <button class="btn mini-in" id="estado-filter"><i class="fa-solid fa-filter"></i> Filtrar</button>
+                    </div>
+                </div>
+                <br>
+                <br>
+                <div class="card">
+                    <div class="tools">
+                        <div class="circle">
+                            <span class="red box"></span>
+                        </div>
+                        <div class="circle">
+                            <span class="yellow box"></span>
+                        </div>
+                        <div class="circle">
+                            <span class="green box"></span>
+                        </div>
+                        <div>
+                            <span class="mini-txt"><b>Filtrar solicitudes por fecha</b></span>
+                        </div>
+                    </div>
+                    <div class="card__content">
+                        
+                        <label for="fechainicio" class="txt mini-txt">Fecha inicio</label>
+                        <input type="date" class="in mini-in" name="fechainicio" id="fechainicio"/>
+                        
+                        <label for="fechafin" class="txt mini-txt">Fecha fin</label>
+                        <input type="date" class="in mini-in" name="fechafin"  id="fechafin"/>
+                        
+                        <button class="btn mini-in" id="filter-button"><i class="fa-solid fa-filter"></i> Filtrar</button>
+                    </div>
+                </div>
+
+                <p><br></p>
+                <button type="submit" class="btn" id="add-button"><i class="fa-solid fa-plus"></i> Agregar reporte</button>
+                <p><br></p>   
                     <div id="loadtabla" class="loading">
                         <svg viewBox="25 25 50 50">
                         <circle r="20" cy="50" cx="50"></circle>
                         </svg>
                     </div> 
-                <div id="card" class="card">
+                <div id="card" >
                     <div class="cabecera">
                     <h2 class="titulo_reporte">No hay solicitudes en espera en este momento</h2>
                     </div>

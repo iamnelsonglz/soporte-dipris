@@ -5,8 +5,14 @@ session_start();
 // Se indica que se va usar la conexión a la base de datos
 require '../bdd/conexion.php';
 
-if (isset($_GET['verestados'])) {
-    verEstados();
+if (isset($_GET['wait'])){
+    $username = $_SESSION['username'];
+    todaywait($username);
+}
+
+else if (isset($_GET['attention'])){
+    $username = $_SESSION['username'];
+    todayattention($username);
 }
 
 else if (isset($_GET['historial'])) {
@@ -34,20 +40,45 @@ else{
 
 /* *********************************************************** */
 
-// Ver estados de solicitudes existentes
-function verEstados(){
+function todaywait($username){
     global $mysqli;
-    $select_query = "SELECT idEstado, nombre FROM Estado ORDER BY idEstado ASC";
+    $select_query = "SELECT count(folio) AS total FROM reporte 
+    WHERE reporte.estado = '1' AND usuario_reporta = '$username'";
     $result = $mysqli->query($select_query);
     if (!$result) {
-        echo "No se encontro resultados para los estados de solicitudes";
+        echo "No se encontro resultados";
     }
 
     $json = array();
     while ($row = mysqli_fetch_array($result)) {
         $json[] = array(
-            'idEstado' => $row['idEstado'],
-            'nombre' => $row['nombre']
+            'total' => $row['total']
+        );
+    }
+    $jsonstring = json_encode($json);
+    echo $jsonstring;
+}
+
+function todayattention($username){
+    global $mysqli;
+    $select_query = "SELECT count(folio) AS total FROM reporte 
+    WHERE reporte.estado = '2' AND usuario_reporta ='$username'";
+    $result = $mysqli->query($select_query);
+    if (!$result) {
+        echo "No se encontro resultados";
+        $nombre = 'no hay reportes finalizados';
+        $total = '0';
+        $json[] = array(
+            'total' => $total
+        );
+        $jsonstring = json_encode($json);
+        echo $jsonstring;
+    }
+
+    $json = array();
+    while ($row = mysqli_fetch_array($result)) {
+        $json[] = array(
+            'total' => $row['total']
         );
     }
     $jsonstring = json_encode($json);
@@ -65,14 +96,6 @@ function verHistorial($username,$estado){
         INNER JOIN usuario ON Reporte.usuario_reporta = Usuario.username
         INNER JOIN Categoria ON Usuario.categoria = Categoria.idCategoria
         WHERE usuario_reporta='$username' and reporte.estado = '$estado'
-        ORDER BY fecha_reporte DESC";
-    }else if($estado == '4'){
-        $select_query = "SELECT folio, fecha_reporte AS fecha, descripcion, tipo_reporte.nombre AS tipo, estado.nombre AS estado, IF(usuario_responde='root', 'Aún no asignado', usuario_responde) AS usuario, IF(fecha_respuesta IS NULL, 'Aún no respondido', fecha_respuesta) AS fecha_respuesta, IF(respuesta IS NULL, 'Aún no hay respuesta', respuesta) AS respuesta FROM reporte
-        INNER JOIN Tipo_reporte ON reporte.tipo = tipo_reporte.idTipo
-        INNER JOIN estado ON reporte.estado = estado.idEstado
-        INNER JOIN usuario ON Reporte.usuario_reporta = Usuario.username
-        INNER JOIN Categoria ON Usuario.categoria = Categoria.idCategoria
-        WHERE usuario_reporta='$username' and reporte.estado = '$estado' AND fecha_reporte >= CURDATE()
         ORDER BY fecha_reporte DESC";
     }else{
         $select_query = "SELECT folio, fecha_reporte AS fecha, descripcion, tipo_reporte.nombre AS tipo, estado.nombre AS estado, IF(usuario_responde='root', 'Aún no asignado', usuario_responde) AS usuario, IF(fecha_respuesta IS NULL, 'Aún no respondido', fecha_respuesta) AS fecha_respuesta, IF(respuesta IS NULL, 'Aún no hay respuesta', respuesta) AS respuesta FROM reporte
@@ -112,7 +135,7 @@ function verHistorial($username,$estado){
 function filtrarHistorial($username,$estado,$fechainicio,$fechafin){
     global $mysqli;
     global $select_query;
-    if($estado == '1' || $estado == '2' || $estado == '4'){
+    if($estado == '1' || $estado == '2'){
         $select_query = "SELECT folio, fecha_reporte AS fecha, descripcion, tipo_reporte.nombre AS tipo, estado.nombre AS estado, IF(usuario_responde='root', 'Aún no asignado', usuario_responde) AS usuario, IF(fecha_respuesta IS NULL, 'Aún no respondido', fecha_respuesta) AS fecha_respuesta, IF(respuesta IS NULL, 'Aún no hay respuesta', respuesta) AS respuesta FROM reporte
         INNER JOIN Tipo_reporte ON reporte.tipo = tipo_reporte.idTipo
         INNER JOIN estado ON reporte.estado = estado.idEstado
@@ -158,7 +181,7 @@ function filtrarHistorial($username,$estado,$fechainicio,$fechafin){
 // Cancelar solicitud
 function cancelarSolicitud($folio){
     global $mysqli;
-    $query = "UPDATE Reporte SET estado='4' WHERE folio='$folio' and estado != 4  LIMIT 1";
+    $query = "UPDATE Reporte SET estado='4', fecha_respuesta = now() WHERE folio='$folio' and estado != 4  LIMIT 1";
     // Se llama la variable de conexión y se ejecuta el query
     $result = $mysqli->query($query);
     // Si se modifico con exito

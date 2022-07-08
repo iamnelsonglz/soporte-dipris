@@ -94,7 +94,9 @@ $(document).ready(function () {
                             <td></td>
                             <td></td>
                             <td></td>
-                        <tr/>`;
+                        </tr>
+                        `
+                        ;
                     $('#table-support').html(template);
                 }
                 else {
@@ -131,7 +133,8 @@ $(document).ready(function () {
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                            <tr/>
+                        </tr>
+                         
                     `
                         $('#table-support').html(template);
                 }

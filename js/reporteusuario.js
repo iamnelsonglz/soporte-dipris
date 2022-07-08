@@ -1,24 +1,47 @@
 $(document).ready(function () {
-    estadoSolicitud();
+    wait();
+    attention();
     fecha();
-    verHistorialEspera();
+    verEsperaAtencion();
 
-    // Rellenar estados de solicitud
-    function estadoSolicitud() {
+    function wait(){
         $.ajax({
-            url: '../bdd/scriptusuario.php?verestados',
+            url: '../bdd/scriptusuario.php?wait',
             type: 'GET',
             success: function (response) {
                 const personas = JSON.parse(response);
                 let template = '';
                 personas.forEach(persona => {
                     template += `
-                    <option value="${persona.idEstado}">${persona.nombre}</option>
-                `
-                    $('#where').html(template);
+                    <label class="txt"> <i class="fa-solid fa-clock"></i> Total: ${persona.total}</label>
+                    `;
+                    $('.scoreboard-esp').html(template);
                 })
-            }
-        });
+            }    
+        }); 
+    }
+
+    function attention(){
+        $.ajax({
+            url: '../bdd/scriptusuario.php?attention',
+            type: 'GET',
+            beforeSend: function (xhr) {
+                
+            },
+            success: function (response) {
+                
+                const personas = JSON.parse(response);
+                let template = '';
+                personas.forEach(persona => {
+                    console.log("-->"+persona);
+                    template += `
+                    <label class="txt"> <i class="fa-solid fa-bell-concierge"></i> Total: ${persona.total}</label>
+                    `;
+                    $('.scoreboard-aten').html(template);
+                    
+                })
+            }    
+        }); 
     }
 
     // Mostrar fecha actual en filtro de fecha
@@ -29,21 +52,21 @@ $(document).ready(function () {
     }
 
     // Mostrar solicitudes con el estado Espera
-    function verHistorialEspera(){
+    function verEsperaAtencion(){
         let template = '';
         $.ajax({
             url: '../bdd/scriptusuario.php?historial=true&estado=1',
             type: 'GET',
-            beforeSend: function (xhr) {
-                $("#loadtabla").fadeIn("slow");
-            },
+            
             success: function (response) {
-                $("#loadtabla").fadeOut("slow");
+                
                 if (response === '[]') {
                     template += `
                     <div class="cabecera">
                     <h2 class="titulo_reporte">No hay solicitudes en espera en este momento</h2>
                     </div>
+                    <br>
+                    <br>
                     `;
                     $('#card').html(template);
                 }else{
@@ -89,10 +112,7 @@ $(document).ready(function () {
                 }
             } 
         });
-    }
 
-    // Mostrar solicitudes con el estado Atención
-    function verHistorialAtencion(){
         $.ajax({
             url: '../bdd/scriptusuario.php?historial=true&estado=2',
             type: 'GET',
@@ -102,16 +122,17 @@ $(document).ready(function () {
             success: function (response) {
                 $("#loadtabla").fadeOut("slow");
                 if (response === '[]') {
-                    template = '';
+                    
                     template += `
                     <div class="cabecera">
                     <h2 class="titulo_reporte">No hay solicitudes en atención en este momento</h2>
                     </div>
+                   
                     `;
                     $('#card').html(template);
                 }else{
                     const personas = JSON.parse(response);
-                    template = '';
+                    
                     personas.forEach(persona => {
                         template += `
                         <div class="cabecera">
@@ -151,25 +172,27 @@ $(document).ready(function () {
                     })
                 }
             }
-        });     
+        }); 
     }
 
     // Mostrar solicitudes con el estado Finalizado
-    function verHistorialFinalizado(){
+    function verFinalizadoCancelado(){
         $.ajax({
             url: '../bdd/scriptusuario.php?historial=true&estado=3',
             type: 'GET',
             beforeSend: function (xhr) {
-                $("#loadtabla").fadeIn("slow");
+                
             },
             success: function (response) {
-                $("#loadtabla").fadeOut("slow");
+                
                 if (response === '[]') {
                     template = '';
                     template += `
                     <div class="cabecera">
                     <h2 class="titulo_reporte">No hay solicitudes finalizadas en este momento</h2>
                     </div>
+                    <br>
+                    <br>
                     `;
                     $('#card').html(template);
                 }else{
@@ -214,11 +237,8 @@ $(document).ready(function () {
                     })
                 }
             }
-        });     
-    }
-
-    // Mostrar solicitudes con el estado Cancelado
-    function verHistorialCancelado(){
+        });   
+        
         $.ajax({
             url: '../bdd/scriptusuario.php?historial=true&estado=4',
             type: 'GET',
@@ -228,7 +248,7 @@ $(document).ready(function () {
             success: function (response) {
                 $("#loadtabla").fadeOut("slow");
                 if (response === '[]') {
-                    template = '';
+                    
                     template += `
                     <div class="cabecera">
                     <h2 class="titulo_reporte">No hay solicitudes canceladas en este momento</h2>
@@ -237,7 +257,7 @@ $(document).ready(function () {
                     $('#card').html(template);
                 }else{
                     const personas = JSON.parse(response);
-                    template = '';
+                    
                     personas.forEach(persona => {
                         template += `
                         <div class="cabecera">
@@ -281,21 +301,21 @@ $(document).ready(function () {
     }
 
     // Filtrar solicitudes con el estado Espera
-    function filtrarHistorialEspera(fechainicio,fechafin){
+    function filtrarEsperaAtencion(fechainicio,fechafin){
         let template = '';
         $.ajax({
             url: '../bdd/scriptusuario.php?filtrar=true&estado=1&inicio='+fechainicio+'&fin='+fechafin,
             type: 'GET',
-            beforeSend: function (xhr) {
-                $("#loadtabla").fadeIn("slow");
-            },
+            
             success: function (response) {
-                $("#loadtabla").fadeOut("slow");
+                
                 if (response === '[]') {
                     template += `
                     <div class="cabecera">
                     <h2 class="titulo_reporte">No hay solicitudes en espera en este momento</h2>
                     </div>
+                    <br>
+                    <br>
                     `;
                     $('#card').html(template);
                 }else{
@@ -341,10 +361,7 @@ $(document).ready(function () {
                 }
             } 
         });
-    }
 
-    // Filtrar solicitudes con el estado Atención
-    function filtrarHistorialAtencion(fechainicio,fechafin){
         $.ajax({
             url: '../bdd/scriptusuario.php?filtrar=true&estado=2&inicio='+fechainicio+'&fin='+fechafin,
             type: 'GET',
@@ -354,7 +371,7 @@ $(document).ready(function () {
             success: function (response) {
                 $("#loadtabla").fadeOut("slow");
                 if (response === '[]') {
-                    template = '';
+                    
                     template += `
                     <div class="cabecera">
                     <h2 class="titulo_reporte">No hay solicitudes en atención en este momento</h2>
@@ -363,7 +380,7 @@ $(document).ready(function () {
                     $('#card').html(template);
                 }else{
                     const personas = JSON.parse(response);
-                    template = '';
+                    
                     personas.forEach(persona => {
                         template += `
                         <div class="cabecera">
@@ -407,21 +424,21 @@ $(document).ready(function () {
     }
 
     // Filtrar solicitudes con el estado Finalizado
-    function filtrarHistorialFinalizado(fechainicio,fechafin){
+    function filtrarFinalizadoCancelado(fechainicio,fechafin){
         $.ajax({
             url: '../bdd/scriptusuario.php?filtrar=true&estado=3&inicio='+fechainicio+'&fin='+fechafin,
             type: 'GET',
-            beforeSend: function (xhr) {
-                $("#loadtabla").fadeIn("slow");
-            },
+           
             success: function (response) {
-                $("#loadtabla").fadeOut("slow");
+                
                 if (response === '[]') {
                     template = '';
                     template += `
                     <div class="cabecera">
                     <h2 class="titulo_reporte">No hay solicitudes finalizadas en este momento</h2>
                     </div>
+                    <br>
+                    <br>
                     `;
                     $('#card').html(template);
                 }else{
@@ -467,10 +484,7 @@ $(document).ready(function () {
                 }
             }
         });     
-    }
 
-    // Filtrar solicitudes con el estado Cancelado
-    function filtrarHistorialCancelado(fechainicio,fechafin){
         $.ajax({
             url: '../bdd/scriptusuario.php?filtrar=true&estado=4&inicio='+fechainicio+'&fin='+fechafin,
             type: 'GET',
@@ -480,16 +494,17 @@ $(document).ready(function () {
             success: function (response) {
                 $("#loadtabla").fadeOut("slow");
                 if (response === '[]') {
-                    template = '';
+                    
                     template += `
                     <div class="cabecera">
                     <h2 class="titulo_reporte">No hay solicitudes canceladas en este momento</h2>
+
                     </div>
                     `;
                     $('#card').html(template);
                 }else{
                     const personas = JSON.parse(response);
-                    template = '';
+                    
                     personas.forEach(persona => {
                         template += `
                         <div class="cabecera">
@@ -529,61 +544,51 @@ $(document).ready(function () {
                     })
                 }
             }
-        });     
+        });  
     }
 
-    // filtrar solicitudes por estado
+    // Filtrar solicitudes
+    let seleccion = document.querySelectorAll('input[name=radOverclock]');
     $(document).on('click', '#estado-filter', function (e) {
-        let filtro = $('#where').val();
-        if(filtro == 1){
-            verHistorialEspera();
-        }else if(filtro == 2){
-            verHistorialAtencion();
-        }else if(filtro == 3){
-            verHistorialFinalizado();
-        }else if(filtro == 4){
-            verHistorialCancelado();
-        }else{
-
+        e.preventDefault();
+        if (seleccion[0].checked) {
+            verEsperaAtencion();
+        } else if (seleccion[1].checked) {
+            verFinalizadoCancelado();
+        } else {
+            
         }
-         
     })
 
     // filtrar solicitudes por fecha
     $(document).on('click', '#filter-button', function (e) {
+        e.preventDefault();
         let fechainicio = $("#fechainicio").val();
         let fechafin = $("#fechafin").val();
-        let filtro = $('#where').val();
-
-        if(fechainicio.length <= 0 || fechafin.length <= 0){
-            e.preventDefault();
-            alert("Es necesario seleccionar fecha de inicio y fecha de fin");
-            
-        }else{
-            if(Date.parse(fechafin) < Date.parse(fechainicio)) {
-                e.preventDefault();
-                alert("La fecha final debe ser mayor o igual a la fecha de inicio");
-               
+        if (seleccion[0].checked) {
+            if(fechainicio.length <= 0 || fechafin.length <= 0){
+                alert('Es necesario seleccionar fecha de inicio y fecha de fin');  
             }else{
-                if(filtro == 1){
-                    filtrarHistorialEspera(fechainicio,fechafin);
-                }else if(filtro == 2){
-                    filtrarHistorialAtencion(fechainicio,fechafin);
-                }else if(filtro == 3){
-                    filtrarHistorialFinalizado(fechainicio,fechafin);
-                }else if(filtro == 4){
-                    filtrarHistorialCancelado(fechainicio,fechafin);
+                if(Date.parse(fechafin) < Date.parse(fechainicio)) {
+                    alert('La fecha final debe ser mayor o igual a la fecha de inicio'); 
                 }else{
-
+                    filtrarEsperaAtencion(fechainicio,fechafin);
                 }
             }
-        }
-    })
-
-    // nuevo reporte
-    $(document).on('click', '#add-button', function (e) {
-        window.location.href = "../reportes/nuevo.php";
-    })
+        } else if (seleccion[1].checked) {
+            if(fechainicio.length <= 0 || fechafin.length <= 0){
+                alert('Es necesario seleccionar fecha de inicio y fecha de fin');  
+            }else{
+                if(Date.parse(fechafin) < Date.parse(fechainicio)) {
+                    alert('La fecha final debe ser mayor o igual a la fecha de inicio'); 
+                }else{
+                    filtrarFinalizadoCancelado(fechainicio,fechafin);
+                }
+            }
+        } else {
+            
+        }   
+    })  
 
     // cancelar reporte
     $(document).on('click', '#btn-cancelar', function (e) {
@@ -596,10 +601,15 @@ $(document).ready(function () {
             };
             $.post('../bdd/scriptusuario.php', postData, function (response) {
                 alert(response);
-                verHistorialEspera();
+                verEsperaAtencion();
             });         
         }else{
             
         }
+    })
+
+    // nuevo reporte
+     $(document).on('click', '#add-button', function (e) {
+        window.location.href = "../reportes/nuevo.php";
     })
 });
