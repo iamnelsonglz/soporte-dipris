@@ -84,11 +84,11 @@ $(document).ready(function () {
             };
             $.post('../bdd/scriptdepartamento.php', postData, function (response) {
                 alert(response);
+                obtenerDepartamentos();
             });
             cerrarModal();
         }
         
-        obtenerDepartamentos();
     })
 
     // Mostrar formulario para modificar en modal
@@ -160,12 +160,13 @@ $(document).ready(function () {
                 };
                 $.post('../bdd/scriptdepartamento.php', postData, function (response) {
                     alert(response);
+                    obtenerDepartamentos();
                 });
                 cerrarModal();
             } else {
                
             }
-            obtenerDepartamentos();
+            
         } 
     })
 
@@ -183,12 +184,13 @@ $(document).ready(function () {
                 };
                 $.post('../bdd/scriptdepartamento.php', postData, function (response) {
                     alert(response);
+                    obtenerDepartamentos();
                 });
                 cerrarModal();
             }else{
 
             }
-            obtenerDepartamentos();
+            
         }
         
     })

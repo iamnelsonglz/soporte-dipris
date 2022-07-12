@@ -37,7 +37,7 @@ if (isset($_SESSION['username']) && isset($_SESSION['tipo']) && $_SESSION['tipo'
 
 <!--Inicio del menu lateral(Vertical)-->
 <!--Donde ira el icono usuario-->
-<div class="name__page">
+<div class="name__page" id="op_cuenta">
         <i username="<?php echo ($_SESSION['username']) ?>" class="fa-solid fa-circle-user" title="Información de usuario"></i>
             <div id="u_result">
                 <h4><?php echo ($_SESSION['username']) ?></h4>

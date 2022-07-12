@@ -299,12 +299,13 @@ $(document).ready(function () {
                 };
                 $.post('../bdd/scriptpersonal.php', postData, function (response) {
                     alert(response);
+                    obtenerPersonal();
                 });
                 cerrarModal();
             } else {
                 
             }
-            obtenerPersonal();
+            
         }
     })
 
@@ -322,11 +323,12 @@ $(document).ready(function () {
                 };
                 $.post('../bdd/scriptpersonal.php', postData, function (response) {
                     alert(response);
+                    obtenerPersonal();
                 });
                 cerrarModal();
             }
         }
-        obtenerPersonal();
+       
     })
 
     $(document).on('click', '#show', function (e) {

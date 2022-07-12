@@ -11,8 +11,6 @@ $(document).ready(function () {
                 let template = '';
                 personas.forEach(persona => {
                     template += `
-                    <fieldset>
-                    <legend class="txt">Información de usuario</legend>
                     <div>
                     <label class="txt" for="username">Nombre de usuario: </label>
                     <input type="text" class="in" name="username" readonly value="${persona.username}" id="username">
@@ -23,9 +21,6 @@ $(document).ready(function () {
                     <input type="password" class="in" name="password" value="${persona.password}" id="password">
                     <span id="show">Mostrar</span>
                     </div>
-                    </fieldset>
-                    <fieldset>
-                    <legend class="txt">Información de persona</legend>
                     <div>
                     <label class="txt" for="nombre">Nombre(s): </label>
                     <input type="text" class="in" name="nombre" value="${persona.nombre}" id="nombre">
@@ -40,20 +35,21 @@ $(document).ready(function () {
                     <label class="txt" for="materno">Apellido materno: </label>
                     <input type="text" class="in" name="materno" value="${persona.materno}" id="materno">
                     </div>
-                    </fieldset>
                     <br>
                     `;
-                    $('#content-body').html(template);
-                    $('#content-body').show();
-
+                    $('.body').html(template);
+                    $('.body').show();
+                    
                     template = '';
                     template += `
+                    <br>
                     <div>
                     <button type="submit" user="${persona.username}" id="btn-mod" class="btn btn-mod btn-modal"> <i class="fa-regular fa-floppy-disk"></i> Guardar modificación</button>
                     </div>
                     `;
-                    $('#footer').html(template);
-                    $('#footer').show();
+                    $('.footer').html(template);
+                    $('.footer').show();
+                    
                 })
             }
         });

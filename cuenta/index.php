@@ -12,8 +12,7 @@ if (isset($_SESSION['username']) && isset($_SESSION['tipo'])) {
     <!-- Icono en pestaña -->
     <link rel="icon" type="image/x-icon" href="../imagenes/favicon.ico" />
     <!-- Estilos -->
-    <link href="../css/style.css" rel="stylesheet" />
-    <link href="../css/stylethings.css" rel="stylesheet" />
+    <link href="../css/style-informacion.css" rel="stylesheet" />
     <link rel="stylesheet" href="../css/mlateral.css">
     <script src="https://kit.fontawesome.com/25f7695136.js" crossorigin="anonymous"></script>
     <!-- Script's para Jquery y Ajax -->
@@ -52,7 +51,7 @@ if (isset($_SESSION['username']) && isset($_SESSION['tipo'])) {
                 <!--Inicio Menu opciones-->
                 <div class="options__menu">
                     <!--1.-Opcion de Inicio-->
-                    <a id="op_home" class="selected">
+                    <a id="op_home">
                         <!--Para las direcciones entre paginas-->
                         <div class="option activo">
                             <i class="fa-solid fa-house" title="Inicio"></i>
@@ -100,7 +99,7 @@ if (isset($_SESSION['username']) && isset($_SESSION['tipo'])) {
                 <!--Inicio Menu opciones-->
                 <div class="options__menu">
                     <!--1.-Opcion de Inicio-->
-                    <a id="op_home" class="selected">
+                    <a id="op_home" >
                         <!--Para las direcciones entre paginas-->
                         <div class="option activo">
                             <i class="fa-solid fa-house" title="Inicio"></i>
@@ -131,7 +130,7 @@ if (isset($_SESSION['username']) && isset($_SESSION['tipo'])) {
                 <!--Inicio Menu opciones-->
                 <div class="options__menu">
                     <!--1.-Opcion de Inicio-->
-                    <a id="op_home" class="selected">
+                    <a id="op_home">
                         <!--Para las direcciones entre paginas-->
                         <div class="option activo">
                             <i class="fa-solid fa-house" title="Inicio"></i>
@@ -156,18 +155,24 @@ if (isset($_SESSION['username']) && isset($_SESSION['tipo'])) {
         </div>
         <!--Barra lateral(Vertical) Fin cambiar-->
         <main class="main">
-            <div class="content">
-                <div class="body fragment" id="content-body">
-                                
+            <div class="card">
+                <div class="tools">
+                    <div class="circle">
+                        <span class="red box"></span>
+                    </div>
+                    <div class="circle">
+                        <span class="yellow box"></span>
+                    </div>
+                    <div class="circle">
+                        <span class="green box"></span>
+                    </div>
                 </div>
-                <div class="footer" id="footer">
-
+                <div class="card__content">
+                    <div class="body"></div>
+                    <div class="footer"></div>  
                 </div>
-                
-                
-            </div>
-        
-    </main>
+            </div>  
+        </main>
     <script src="../js/mlateral.js"></script>
 </body>
 
