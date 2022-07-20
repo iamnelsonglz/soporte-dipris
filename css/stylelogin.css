@@ -22,6 +22,8 @@
     --fondo: #fff;
 }
 
+input {-webkit-user-select: text;}
+
 body{
     /* background-image: url(../Imagenes/Fondo.jpg); */
     background-color: var(--background-color);
@@ -164,6 +166,15 @@ main{
 
 .formulario_registre{
     display: none;
+}
+
+.in{
+    background: transparent;
+    border: none;
+    font-size: var(--font-size); 
+    margin-right: 1em;
+    width: auto;
+    border-bottom: 1px solid var(--principal-color-light);
 }
 
 /*Esta parte es del responsive Design*/

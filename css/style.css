@@ -35,6 +35,8 @@
     }
 }
 
+input {-webkit-user-select: text;}
+
 /* Cuerpo del proyecto */
 body {
     margin: 0;
@@ -381,14 +383,7 @@ select {
     cursor: pointer;
 }
 
-.in{
-    background: transparent;
-    border: none;
-    font-size: var(--font-size); 
-    margin-right: 1em;
-    width: auto;
-    border-bottom: 1px solid var(--principal-color-light);
-}
+
 
 .mini-in{
     font-size: var(--mini-font-size) !important;
@@ -445,6 +440,10 @@ select {
     .in, .txt {
         font-size: 0.5rem;
     }
+
+    .btn__cabecera{
+        font-size: 0.6em;
+    }
 }
 
 
@@ -460,6 +459,10 @@ select {
     }
 
     .in, .txt {
-        font-size: 0.8rem;
+        font-size: 0.8em;
+    }
+
+    .btn__cabecera{
+        font-size: 0.8em;
     }
 }

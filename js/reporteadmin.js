@@ -38,7 +38,7 @@ $(document).ready(function () {
                 let template = '';
                 personas.forEach(persona => {
                     template += `
-                    <label class="txt"> <i class="fa-solid fa-clipboard-list"></i> Total: ${persona.total}</label>
+                    <label class="txt"> <i class="fa-solid fa-clock"></i> Total: ${persona.total}</label>
                     `;
                     $('.scoreboard-esp').html(template);
                 })

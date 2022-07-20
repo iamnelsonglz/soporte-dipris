@@ -111,6 +111,14 @@
 }
 
 @media only screen and (max-width: 1080px){
+  
+
+  .modal-content {
+    width: 80%;
+  }
+}
+
+@media only screen and (max-width: 640px){
   .fragment-modal{ 
       display: grid !important;
       grid-template-columns: 1fr !important;
@@ -127,4 +135,15 @@
   .btn-modal{
     font-size: 0.8rem;
   }
+
+  .modal {
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+  }
+
+  .modal-content {
+    width: 80%;
+  }
 }
+
+     

@@ -79,5 +79,6 @@ table > thead {
 @media only screen and (max-width: 720px){
     table{
         width: 100%;
+        font-size: 0.8em;
     }
 }
