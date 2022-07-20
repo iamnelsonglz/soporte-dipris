@@ -122,9 +122,11 @@ $(document).ready(function () {
         $.ajax({
             url: '../bdd/scriptsoporte.php?pendientes',
             type: 'GET',
-            
+            beforeSend: function (xhr) {
+               
+            },
             success: function (response) {
-                
+                $("#loadtabla").fadeOut("slow");
                 if (response === '[]') {
                     console.log("Sin resultados");
                         template += `
@@ -147,7 +149,7 @@ $(document).ready(function () {
                             <td>${persona.tipo}</td>
                             <td>${persona.usuario}</td>
                             <td>
-                                <button type="submit" folio="${persona.folio}" class="assign-button btn" title="Presione para asignarse esta tarea "> <i class="fa-solid fa-check"></i> Asignarmelo </button>
+                                <button type="submit" folio="${persona.folio}" class="btn previsualizar__solicitud" title="Presione para ver la solicitud "> <i class="fa-solid fa-eye"></i> Ver solicitud</button>
                             </td>
                         </tr>
                     `
@@ -307,7 +309,7 @@ $(document).ready(function () {
                             <td>${persona.tipo}</td>
                             <td>${persona.usuario}</td>
                             <td>
-                                <button type="submit" folio="${persona.folio}" class="btn assign-button l-media-btn" title="Presione para asignarse esta tarea "> <i class="fa-solid fa-check"></i> Asignarmelo </button>
+                            <button type="submit" folio="${persona.folio}" class="btn previsualizar__solicitud" title="Presione para ver la solicitud "> <i class="fa-solid fa-eye"></i> Ver solicitud</button>
                             </td>
                         </tr>
                     `
@@ -377,10 +379,11 @@ $(document).ready(function () {
                 };
                 $.post('../bdd/scriptsoporte.php', postData, function (response) {
                     alert(response);
+                    cerrarModal();
                     finish();
                     wait();
                     attention();
-                    verReportes();
+                    verEsperaAtencion();
                 });   
             } else { 
             }
@@ -406,11 +409,7 @@ $(document).ready(function () {
         if ((folio.length <= 0) || (folio === '0')){
             alert('Folio de reporte invalido');
         }else{
-            if (confirm('¿Desea responder este reporte?')){
-                window.location.href = "../reportes/responder.php?folio="+folio;
-            } else {
-                e.preventDefault();
-            }
+            window.location.href = "../reportes/responder.php?folio="+folio;
         }
     })
 
@@ -424,11 +423,7 @@ $(document).ready(function () {
         if ((folio.length <= 0) || (folio === '0')){
             alert('Folio de reporte invalido');
         }else{
-            if (confirm('¿Desea ver la respuesta de este reporte?')){
-                window.location.href = "../reportes/respuesta.php?folio="+folio;
-            } else {
-                e.preventDefault();
-            }
+            window.location.href = "../reportes/respuesta.php?folio="+folio;
         }
     })
 
@@ -473,5 +468,75 @@ $(document).ready(function () {
         } else {
             
         }   
-    })  
+    }) 
+    
+    $(document).on('click', '.close', function (e) {
+        modal.style.display = "none";
+    })
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+    var modal = document.getElementById("modalPrevisual");
+    function cerrarModal(){
+        modal.style.display = "none";
+    }
+
+    // Previsualizar solicitud
+    $(document).on('click', '.previsualizar__solicitud', function (e) {
+        modal.style.display = "block";
+        let template = '';
+        e.preventDefault();   
+            let element = $(this)[0];
+            let folio = $(element).attr('folio');
+            $.ajax({
+                url: '../bdd/scriptsoporte.php?previsual='+folio,
+                type: 'GET',
+                success: function (response) {
+                        console.log(response);
+                        const personas = JSON.parse(response);
+                        personas.forEach(persona => {
+                            template = '';
+                            template += `
+                            <div>
+                                <label class="txt" for="reporta"><b>Persona que reporta:</b> </label>
+                                <label class="txt" name="reporta" id="p_reporta">${persona.nombre} ${persona.paterno} ${persona.materno}</label>
+                            </div>
+                            <div>
+                                <label class="txt" for="tipop"><b>Tipo de usuario: </b></label>
+                                <label class="txt" name="tipop" id="tipo_reporta">${persona.categoria}</label>
+                            </div>
+                            <div>
+                                <label class="txt" for="reporta"><b>Departamento:</b> </label>
+                                <label class="txt" name="reporta" id="p_reporta">${persona.departamento}, ubicado en la planta ${persona.planta}</label>
+                            </div>
+                            <div>
+                                <label class="txt" for="msj"><b>Mensaje:</b> </label>
+                                <label class="txt" name="msj" id="msj_solicitud">${persona.descripcion}</label>
+                            </div>
+                            `;
+                            $('#modalbody__espera').html(template);
+                            $('#modalbody__espera').show();
+                        })
+
+                        personas.forEach(persona => {
+                            template = '';
+                            template += `
+                            <div>
+                                
+                            </div>
+                            <div>
+                            <button type="submit" folio="${persona.folio}" class="assign-button btn" title="Presione para asignarse esta solicitud "> <i class="fa-solid fa-check"></i> Asignarmelo </button>
+                            </div>
+                            `;
+                            $('#modalfooter__espera').html(template);
+                            $('#modalfooter__espera').show();
+                        })
+                        
+                } 
+            });
+    })
 });

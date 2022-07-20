@@ -93,9 +93,90 @@ $(document).ready(function () {
         document.getElementById("fechafin").value = fecha.toJSON().slice(0,10);
     }
 
+    $(document).on('click', '.close', function (e) {
+        modal.style.display = "none";
+    })
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+    var modal = document.getElementById("modalPrevisual");
+    function cerrarModal(){
+        modal.style.display = "none";
+    }
+
+    // Previsualizar solicitud
+    $(document).on('click', '.previsualizar__solicitud', function (e) {
+        modal.style.display = "block";
+        let template = '';
+        e.preventDefault();   
+            let element = $(this)[0];
+            let folio = $(element).attr('folio');
+            $.ajax({
+                url: '../bdd/scriptreportes.php?previsual='+folio,
+                type: 'GET',
+                success: function (response) {
+                        console.log(response);
+                        const personas = JSON.parse(response);
+                        personas.forEach(persona => {
+                            template = '';
+                            template += `
+                            <div>
+                                <label class="txt" for="reporta"><b>Persona que reporta:</b> </label>
+                                <label class="txt" name="reporta" id="p_reporta">${persona.nombre} ${persona.paterno} ${persona.materno}</label>
+                            </div>
+                            <div>
+                                <label class="txt" for="tipop"><b>Tipo de usuario: </b></label>
+                                <label class="txt" name="tipop" id="tipo_reporta">${persona.categoria}</label>
+                            </div>
+                            <div>
+                                <label class="txt" for="reporta"><b>Departamento:</b> </label>
+                                <label class="txt" name="reporta" id="p_reporta">${persona.departamento}, ubicado en la planta ${persona.planta}</label>
+                            </div>
+                            <div>
+                                <label class="txt" for="msj"><b>Mensaje:</b> </label>
+                                <label class="txt" name="msj" id="msj_solicitud">${persona.descripcion}</label>
+                            </div>
+                            `;
+                            $('#modalbody__espera').html(template);
+                            $('#modalbody__espera').show();
+                        })
+
+                        personas.forEach(persona => {
+                            template = '';
+                            template += `
+                            <div>
+                                <select name="user-soporte" id="${persona.folio}" class="support-user in">
+                                </select>
+                            </div>
+                            <div>
+                                <button type="submit" folio="${persona.folio}" class="btn assign-button" title="Presione para asignar tarea "> <i class="fa-solid fa-check"></i> Asignar </button>
+                            </div>
+                            `;
+                            $('#modalfooter__espera').html(template);
+                            $('#modalfooter__espera').show();
+                        })
+                        selectSoporte();
+                } 
+            });
+    })
+
     // Mostrar las solicitudes en Espera
     function obtenerReportesEspera() {
         let template = '';
+        let thead = '';
+
+        thead += `
+                <th>FECHA</th>
+                <th>REPORTE</th>
+                <th>REPORTA</th>
+                <th>ACCIÓN</th>
+            `;
+        $('#header').html(thead);
+
         $.ajax({
             url: '../bdd/scriptreportes.php?espera',
             type: 'GET',
@@ -107,33 +188,32 @@ $(document).ready(function () {
                 if (response === '[]') {
                     template += `
                     <tr>
-                    <td>No hay reportes pendientes de atención</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                <tr/>`;
+                        <td>No hay reportes pendientes de atención</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    <tr/>`;
                     $('#table-admin').html(template);
                 }
                 else {
                     const personas = JSON.parse(response);
+                    
                     personas.forEach(persona => {
+                        
+
                         template += `
                         <tr folio="${persona.folio}" class="selected">
                             <td>${persona.fecha}</td>
                             <td>${persona.tipo}</td>
                             <td>${persona.usuario}</td>
+                            
                             <td>
-                            <select name="user-soporte" id="${persona.folio}" class="support-user in">
-                            </select>
-                            </td>
-                            <td>
-                            <button type="submit" folio="${persona.folio}" class="assign-button btn" title="Presione para asignar tarea "> <i class="fa-solid fa-check"></i> Asignar </button>
+                            <button type="submit" folio="${persona.folio}" class="btn previsualizar__solicitud" title="Presione para ver la solicitud "> <i class="fa-solid fa-eye"></i> Ver solicitud</button>
                             </td>
                         </tr>
                     `;
                         $('#table-admin').html(template);
                     })
-                    selectSoporte();
                 }
 
             }
@@ -289,7 +369,7 @@ $(document).ready(function () {
                 }
                 else {
                     const personas = JSON.parse(response);
-                    template = '<option value="0">Seleccione una opción</option>';
+                    template = '<option value="0">Seleccione un usuario</option>';
                     personas.forEach(persona => {
                         template += `
                             <option value="${persona.usuario}" usr="${persona.usuario}">
@@ -364,17 +444,16 @@ $(document).ready(function () {
                     personas.forEach(persona => {
                         template += `
                         <tr folio="${persona.folio}" class="selected">
+                            <tr folio="${persona.folio}" class="selected">
                             <td>${persona.fecha}</td>
                             <td>${persona.tipo}</td>
                             <td>${persona.usuario}</td>
+                            
                             <td>
-                            <select name="user-soporte" id="${persona.folio}" class="support-user in">
-                            </select>
-                            </td>
-                            <td>
-                            <button type="submit" folio="${persona.folio}" class="assign-button btn" title="Presione para asignar tarea "> <i class="fa-solid fa-check"></i> Asignar </button>
+                            <button type="submit" folio="${persona.folio}" class="btn previsualizar__solicitud" title="Presione para ver la solicitud "> <i class="fa-solid fa-eye"></i> Ver solicitud</button>
                             </td>
                         </tr>
+                        
                     `;
                         $('#table-admin').html(template);
                     })
@@ -564,6 +643,7 @@ $(document).ready(function () {
               
             }
         }
+        cerrarModal();
         finish();
         wait();
         attention();

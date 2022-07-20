@@ -111,7 +111,7 @@ if(isset($_POST['fechainicio']) && isset($_POST['fechafin']) && isset($_POST['wh
             INNER JOIN usuario AS Usuarioa ON Reporte.usuario_reporta = Usuarioa.username
             INNER JOIN usuario AS Usuariob ON Reporte.usuario_responde = Usuariob.username
             INNER JOIN Categoria ON Usuarioa.categoria = Categoria.idCategoria
-            WHERE estado = '$estado' AND (fecha_reporte BETWEEN '$fechainicio' AND '$fechafin')
+            WHERE estado = '$estado' AND (fecha_reporte BETWEEN '$fechainicio' AND '$fechafin'+1)
             ORDER BY Usuarioa.categoria ASC, Tipo_reporte.prioridad ASC, fecha_reporte ASC";
             break;
         case 2:
@@ -123,7 +123,7 @@ if(isset($_POST['fechainicio']) && isset($_POST['fechafin']) && isset($_POST['wh
             INNER JOIN usuario AS Usuarioa ON Reporte.usuario_reporta = Usuarioa.username
             INNER JOIN usuario AS Usuariob ON Reporte.usuario_responde = Usuariob.username
             INNER JOIN Categoria ON Usuarioa.categoria = Categoria.idCategoria
-            WHERE estado = '$estado' AND (fecha_reporte BETWEEN '$fechainicio' AND '$fechafin')
+            WHERE estado = '$estado' AND (fecha_reporte BETWEEN '$fechainicio' AND '$fechafin'+1)
             ORDER BY Usuarioa.categoria ASC, Tipo_reporte.prioridad ASC, fecha_reporte ASC";    
             break;
         case 3:
@@ -135,7 +135,7 @@ if(isset($_POST['fechainicio']) && isset($_POST['fechafin']) && isset($_POST['wh
             INNER JOIN usuario AS Usuarioa ON Reporte.usuario_reporta = Usuarioa.username
             INNER JOIN usuario AS Usuariob ON Reporte.usuario_responde = Usuariob.username
             INNER JOIN Categoria ON Usuarioa.categoria = Categoria.idCategoria
-            WHERE estado = '$estado' AND (fecha_respuesta BETWEEN '$fechainicio' AND '$fechafin')
+            WHERE estado = '$estado' AND (fecha_respuesta BETWEEN '$fechainicio' AND '$fechafin'+1)
             ORDER BY Usuarioa.categoria ASC, Tipo_reporte.prioridad ASC, fecha_reporte ASC";
             break;
         case 4:
@@ -147,7 +147,7 @@ if(isset($_POST['fechainicio']) && isset($_POST['fechafin']) && isset($_POST['wh
             INNER JOIN usuario AS Usuarioa ON Reporte.usuario_reporta = Usuarioa.username
             INNER JOIN usuario AS Usuariob ON Reporte.usuario_responde = Usuariob.username
             INNER JOIN Categoria ON Usuarioa.categoria = Categoria.idCategoria
-            WHERE estado = '$estado' AND (fecha_reporte BETWEEN '$fechainicio' AND '$fechafin')
+            WHERE estado = '$estado' AND (fecha_reporte BETWEEN '$fechainicio' AND '$fechafin'+1)
             ORDER BY Usuarioa.categoria ASC, Tipo_reporte.prioridad ASC, fecha_reporte ASC";
             break;
         default:

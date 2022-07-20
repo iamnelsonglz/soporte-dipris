@@ -246,12 +246,11 @@ select {
     background-color: var(--principal-color-light);
     color: var(--principal-color-dark);
     width: 100%;
-    border: 0.3em double var(--principal-color-dark);
+    border: 0.3em solid var(--principal-color-dark);
 }
 
 .cuerpo{
-    border: 0.1em solid var(--principal-color-dark);
-    padding-bottom: 2em;
+    padding-bottom: 1em;
 }
 
 .cuerpo-resp{
@@ -357,6 +356,11 @@ select {
     padding: 2em;
 }
 
+.three__fragment{
+    display: grid;
+    grid-template-columns: 2fr 2fr 2fr;
+}
+
 #pass{
     position: relative;
     cursor: pointer;
@@ -404,6 +408,7 @@ select {
 
 .txt{
     font-size: var(--font-size);
+    padding: 0.5em;
 }
 
 .mini-txt{
@@ -417,7 +422,14 @@ select {
     font-size: var(--mini-font-size) !important;
 }
 
+/* Usuario / Inicio*/
+.txt__cabecera{
+    font-size: 1.3em;
+}
 
+.btn__cabecera{
+    font-size: 1.3em;
+}
 
 /* Pantalla responsiva mobile */
 @media only screen and (max-width: 600px){

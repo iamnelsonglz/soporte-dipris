@@ -12,6 +12,7 @@ if (isset($_SESSION['username']) && isset($_SESSION['tipo'])) {
         <!-- Icono en pestaña -->
         <link rel="icon" type="image/x-icon" href="../imagenes/favicon.ico" />
         <!-- Estilos -->
+        <link href="../css/stylemodal.css" rel="stylesheet" />
         <link href="../css/style.css" rel="stylesheet" />
         <link href="../css/styleTable.css" rel="stylesheet" />
         <link href="../css/stylethings.css" rel="stylesheet" />
@@ -307,6 +308,22 @@ if (isset($_SESSION['username']) && isset($_SESSION['tipo'])) {
                         <tbody id="table-admin">
                         </tbody>
                     </table>
+
+                    <!-- Previsualizar solicitud -->
+                    <div class="modal" id="modalPrevisual">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button class="btn-modal close"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+                                <h2 class="modal-title"><b>Solicitud</b></h2>
+                            </div>
+                            <div class="modal-body fragment-modal" id="modalbody__espera">
+                                
+                            </div>
+                            <div class="modal-footer fragment-modal" id="modalfooter__espera">
+                                
+                            </div>
+                        </div>
+                    </div>
                     <script src="../js/reporteadmin.js"></script>
                 </div>
 
@@ -462,6 +479,22 @@ if (isset($_SESSION['username']) && isset($_SESSION['tipo'])) {
                             <tr/>
                         </tbody>
                     </table>
+
+                    <!-- Previsualizar solicitud -->
+                    <div class="modal" id="modalPrevisual">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button class="btn-modal close"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+                                <h2 class="modal-title"><b>Solicitud</b></h2>
+                            </div>
+                            <div class="modal-body fragment-modal" id="modalbody__espera">
+                                
+                            </div>
+                            <div class="modal-footer fragment-modal" id="modalfooter__espera">
+                                
+                            </div>
+                        </div>
+                    </div>
                     <script src="../js/reportesoporte.js"></script>
                 </div>
             <?php

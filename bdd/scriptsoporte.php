@@ -88,6 +88,11 @@ else if(isset($_GET['pendientesfiltro'])){
     filtrarReportesEspera($fechainicio,$fechafin);
 }
 
+else if (isset($_GET['previsual'])){
+    $folio = $_GET['previsual'];
+    previsualizarSolicitud($folio);
+}
+
 else{
     
 }
@@ -439,6 +444,39 @@ function filtrarReportesEspera($fechainicio,$fechafin){
                 'fecha' => $row['fecha'],
                 'tipo' => $row['tipo'],
                 'usuario' => $row['usuario']
+            );
+        }
+        $jsonstring = json_encode($json);
+        echo $jsonstring;
+    }
+}
+
+function previsualizarSolicitud($folio){
+    global $mysqli;
+    $select_query = "SELECT folio, usuario.nombre AS nombre, usuario.apellidoPaterno AS paterno, usuario.apellidoMaterno AS materno, 
+    categoria.nombre AS categoria, departamento.nombre AS departamento, departamento.planta AS planta,
+    descripcion FROM reporte
+    INNER JOIN usuario ON Reporte.usuario_reporta = Usuario.username
+    INNER JOIN categoria ON Usuario.categoria= Categoria.idCategoria
+    INNER JOIN Departamento ON Usuario.departamento = Departamento.idDepartamento
+    WHERE folio = '$folio'";
+    $result = $mysqli->query($select_query);
+    if (!$result) {
+        echo "";
+    }else{
+
+        $json = array();
+        while ($row = mysqli_fetch_array($result)) {
+            $json[] = array(
+                'folio' => $row['folio'],
+                'nombre' => $row['nombre'],
+                'paterno' => $row['paterno'],
+                'materno' => $row['materno'],
+                'categoria' => $row['categoria'],
+                'departamento' => $row['departamento'],
+                'planta' => $row['planta'],
+                'descripcion' => $row['descripcion']
+                
             );
         }
         $jsonstring = json_encode($json);

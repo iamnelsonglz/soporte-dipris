@@ -85,7 +85,7 @@ function verDepto(){
 // Función para rellenar la lista desplegable de tipos de personal
 function verTipo(){
     global $mysqli;
-    $select_query = "SELECT * FROM Categoria ORDER BY nombre ASC";
+    $select_query = "SELECT * FROM Categoria ORDER BY idCategoria DESC";
     $result = $mysqli->query($select_query);
     if (!$result) {
         die('Error de consulta');

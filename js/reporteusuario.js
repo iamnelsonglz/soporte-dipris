@@ -57,13 +57,15 @@ $(document).ready(function () {
         $.ajax({
             url: '../bdd/scriptusuario.php?historial=true&estado=1',
             type: 'GET',
-            
+            beforeSend: function (xhr) {
+                $("#loadtabla").fadeIn("slow");
+            },
             success: function (response) {
                 
                 if (response === '[]') {
                     template += `
                     <div class="cabecera">
-                    <h2 class="titulo_reporte">No hay solicitudes en espera en este momento</h2>
+                    <h2 class="txt txt__cabecera">No hay solicitudes en espera en este momento</h2>
                     </div>
                     <br>
                     <br>
@@ -74,10 +76,10 @@ $(document).ready(function () {
                     template = '';
                     personas.forEach(persona => {
                         template += `
-                        <div class="cabecera">
-                            <h2 class="titulo_reporte">FECHA QUE SE REPORTO: ${persona.fecha}</h2>
-                            <h2 class="estado_reporte ${persona.estado}">Estado: ${persona.estado}</h2>
-                            <h2 class="titulo_reporte">FOLIO DEL REPORTE: ${persona.folio}</h2>
+                        <div class="cabecera three__fragment">
+                            <h2 class="txt txt__cabecera">Folio de solicitud: ${persona.folio}</h2>
+                            <h2 class="txt txt__cabecera ${persona.estado}">Estado: ${persona.estado}</h2>
+                            <button id="btn-cancelar" class="btn btn__cabecera" folio="${persona.folio}"> <i class="fa-solid fa-ban"></i> Cancelar Reporte</button>
                         </div>
                         <div class="cuerpo">
                             <table>
@@ -95,16 +97,16 @@ $(document).ready(function () {
                                         <td>${persona.respuesta}</td>
                                     <tr/>
                                     <tr>
-                                        <td>FECHA DE ENVIO: ${persona.fecha}</td>
-                                        <td>FECHA DE RESPUESTA: ${persona.fecha_respuesta}</td>
+                                        <td><b>Fecha de envio:</b> ${persona.fecha}</td>
+                                        <td><b>Fecha de respuesta:</b> ${persona.fecha_respuesta}</td>
                                     </tr>
                                     <tr>
-                                        <td>TIPO DE REPORTE: ${persona.tipo}</td>
-                                        <td>USUARIO QUE RESPONDE: ${persona.usuario}</td>
+                                        <td><b>Tipo de solicitud:</b> ${persona.tipo}</td>
+                                        <td><b>Persona que responde:</b> ${persona.usuario}</td>
                                     </tr>
                                 </tbody>
                             </table>
-                            <button id="btn-cancelar" class="btn estado_reporte" folio="${persona.folio}"> <i class="fa-solid fa-ban"></i> Cancelar Reporte</button>
+                            
                         </div>
                         `
                         $('#card').html(template);
@@ -117,7 +119,7 @@ $(document).ready(function () {
             url: '../bdd/scriptusuario.php?historial=true&estado=2',
             type: 'GET',
             beforeSend: function (xhr) {
-                $("#loadtabla").fadeIn("slow");
+                
             },
             success: function (response) {
                 $("#loadtabla").fadeOut("slow");
@@ -125,7 +127,7 @@ $(document).ready(function () {
                     
                     template += `
                     <div class="cabecera">
-                    <h2 class="titulo_reporte">No hay solicitudes en atención en este momento</h2>
+                    <h2 class="txt txt__cabecera">No hay solicitudes en atención en este momento</h2>
                     </div>
                    
                     `;
@@ -135,10 +137,10 @@ $(document).ready(function () {
                     
                     personas.forEach(persona => {
                         template += `
-                        <div class="cabecera">
-                            <h2 class="titulo_reporte">FECHA QUE SE REPORTO: ${persona.fecha}</h2>
-                            <h2 class="estado_reporte ${persona.estado}">Estado: ${persona.estado}</h2>
-                            <h2 class="titulo_reporte">FOLIO DEL REPORTE: ${persona.folio}</h2>
+                        <div class="cabecera fragment">
+                            <h2 class="txt txt__cabecera">Folio de solicitud: ${persona.folio}</h2>
+                            <h2 class="txt txt__cabecera ${persona.estado}">Estado: ${persona.estado}</h2>
+                            
                         </div>
                         <div class="cuerpo">
                             <table>
@@ -156,12 +158,12 @@ $(document).ready(function () {
                                         <td>${persona.respuesta}</td>
                                     <tr/>
                                     <tr>
-                                        <td><b>FECHA DE ENVIO:</b> ${persona.fecha}</td>
-                                        <td><b>FECHA DE RESPUESTA:</b> ${persona.fecha_respuesta}</td>
+                                        <td><b>Fecha de envio:</b> ${persona.fecha}</td>
+                                        <td><b>Fecha de respuesta:</b> ${persona.fecha_respuesta}</td>
                                     </tr>
                                     <tr>
-                                        <td><b>TIPO DE REPORTE:</b> ${persona.tipo}</td>
-                                        <td><b>USUARIO QUE RESPONDE:</b> ${persona.usuario}</td>
+                                        <td><b>Tipo de solicitud:</b> ${persona.tipo}</td>
+                                        <td><b>Persona que responde:</b> ${persona.usuario}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -189,7 +191,7 @@ $(document).ready(function () {
                     template = '';
                     template += `
                     <div class="cabecera">
-                    <h2 class="titulo_reporte">No hay solicitudes finalizadas en este momento</h2>
+                    <h2 class="txt txt__cabecera">No hay solicitudes finalizadas en este momento</h2>
                     </div>
                     <br>
                     <br>
@@ -200,10 +202,9 @@ $(document).ready(function () {
                     template = '';
                     personas.forEach(persona => {
                         template += `
-                        <div class="cabecera">
-                            <h2 class="titulo_reporte">FECHA QUE SE REPORTO: ${persona.fecha}</h2>
-                            <h2 class="estado_reporte ${persona.estado}">Estado: ${persona.estado}</h2>
-                            <h2 class="titulo_reporte">FOLIO DEL REPORTE: ${persona.folio}</h2>
+                        <div class="cabecera fragment">
+                            <h2 class="txt txt__cabecera">Folio de solicitud: ${persona.folio}</h2>
+                            <h2 class="txt txt__cabecera ${persona.estado}">Estado: ${persona.estado}</h2>
                         </div>
                         <div class="cuerpo">
                             <table>
@@ -221,12 +222,12 @@ $(document).ready(function () {
                                         <td>${persona.respuesta}</td>
                                     <tr/>
                                     <tr>
-                                        <td><b>FECHA DE ENVIO:</b> ${persona.fecha}</td>
-                                        <td><b>FECHA DE RESPUESTA:</b> ${persona.fecha_respuesta}</td>
+                                        <td><b>Fecha de envio:</b> ${persona.fecha}</td>
+                                        <td><b>Fecha de respuesta:</b> ${persona.fecha_respuesta}</td>
                                     </tr>
                                     <tr>
-                                        <td><b>TIPO DE REPORTE:</b> ${persona.tipo}</td>
-                                        <td><b>USUARIO QUE RESPONDE:</b> ${persona.usuario}</td>
+                                        <td><b>Tipo de solicitud:</b> ${persona.tipo}</td>
+                                        <td><b>Persona que responde:</b> ${persona.usuario}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -251,7 +252,7 @@ $(document).ready(function () {
                     
                     template += `
                     <div class="cabecera">
-                    <h2 class="titulo_reporte">No hay solicitudes canceladas en este momento</h2>
+                    <h2 class="txt txt__cabecera">No hay solicitudes canceladas en este momento</h2>
                     </div>
                     `;
                     $('#card').html(template);
@@ -260,10 +261,9 @@ $(document).ready(function () {
                     
                     personas.forEach(persona => {
                         template += `
-                        <div class="cabecera">
-                            <h2 class="titulo_reporte">FECHA QUE SE REPORTO: ${persona.fecha}</h2>
-                            <h2 class="estado_reporte ${persona.estado}">Estado: ${persona.estado}</h2>
-                            <h2 class="titulo_reporte">FOLIO DEL REPORTE: ${persona.folio}</h2>
+                        <div class="cabecera fragment">
+                            <h2 class="txt txt__cabecera">Folio de solicitud: ${persona.folio}</h2>
+                            <h2 class="txt txt__cabecera ${persona.estado}">Estado: ${persona.estado}</h2>
                         </div>
                         <div class="cuerpo">
                             <table>
@@ -281,12 +281,12 @@ $(document).ready(function () {
                                         <td>${persona.respuesta}</td>
                                     <tr/>
                                     <tr>
-                                        <td><b>FECHA DE ENVIO:</b> ${persona.fecha}</td>
-                                        <td><b>FECHA DE RESPUESTA:</b> ${persona.fecha_respuesta}</td>
+                                        <td><b>Fecha de envio:</b> ${persona.fecha}</td>
+                                        <td><b>Fecha de respuesta:</b> ${persona.fecha_respuesta}</td>
                                     </tr>
                                     <tr>
-                                        <td><b>TIPO DE REPORTE:</b> ${persona.tipo}</td>
-                                        <td><b>USUARIO QUE RESPONDE:</b> ${persona.usuario}</td>
+                                        <td><b>Tipo de solicitud:</b> ${persona.tipo}</td>
+                                        <td><b>Persona que responde:</b> ${persona.usuario}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -312,7 +312,7 @@ $(document).ready(function () {
                 if (response === '[]') {
                     template += `
                     <div class="cabecera">
-                    <h2 class="titulo_reporte">No hay solicitudes en espera en este momento</h2>
+                    <h2 class="txt txt__cabecera">No hay solicitudes en espera en este momento</h2>
                     </div>
                     <br>
                     <br>
@@ -323,10 +323,10 @@ $(document).ready(function () {
                     template = '';
                     personas.forEach(persona => {
                         template += `
-                        <div class="cabecera">
-                            <h2 class="titulo_reporte">FECHA QUE SE REPORTO: ${persona.fecha}</h2>
-                            <h2 class="estado_reporte ${persona.estado}">Estado: ${persona.estado}</h2>
-                            <h2 class="titulo_reporte">FOLIO DEL REPORTE: ${persona.folio}</h2>
+                        <div class="cabecera three__fragment">
+                            <h2 class="txt txt__cabecera">Folio de solicitud: ${persona.folio}</h2>
+                            <h2 class="txt txt__cabecera ${persona.estado}">Estado: ${persona.estado}</h2>
+                            <button id="btn-cancelar" class="btn btn__cabecera" folio="${persona.folio}"> <i class="fa-solid fa-ban"></i> Cancelar Reporte</button>
                         </div>
                         <div class="cuerpo">
                             <table>
@@ -353,7 +353,6 @@ $(document).ready(function () {
                                     </tr>
                                 </tbody>
                             </table>
-                            <button id="btn-cancelar" class="btn estado_reporte" folio="${persona.folio}"> <i class="fa-solid fa-ban"></i> Cancelar Reporte</button>
                         </div>
                         `
                         $('#card').html(template);
@@ -374,7 +373,7 @@ $(document).ready(function () {
                     
                     template += `
                     <div class="cabecera">
-                    <h2 class="titulo_reporte">No hay solicitudes en atención en este momento</h2>
+                    <h2 class="txt txt__cabecera">No hay solicitudes en atención en este momento</h2>
                     </div>
                     `;
                     $('#card').html(template);
@@ -383,10 +382,9 @@ $(document).ready(function () {
                     
                     personas.forEach(persona => {
                         template += `
-                        <div class="cabecera">
-                            <h2 class="titulo_reporte">FECHA QUE SE REPORTO: ${persona.fecha}</h2>
-                            <h2 class="estado_reporte ${persona.estado}">Estado: ${persona.estado}</h2>
-                            <h2 class="titulo_reporte">FOLIO DEL REPORTE: ${persona.folio}</h2>
+                        <div class="cabecera fragment">
+                            <h2 class="txt txt__cabecera">Folio de solicitud: ${persona.folio}</h2>
+                            <h2 class="txt txt__cabecera ${persona.estado}">Estado: ${persona.estado}</h2>
                         </div>
                         <div class="cuerpo">
                             <table>
@@ -435,7 +433,7 @@ $(document).ready(function () {
                     template = '';
                     template += `
                     <div class="cabecera">
-                    <h2 class="titulo_reporte">No hay solicitudes finalizadas en este momento</h2>
+                    <h2 class="txt txt__cabecera">No hay solicitudes finalizadas en este momento</h2>
                     </div>
                     <br>
                     <br>
@@ -446,10 +444,9 @@ $(document).ready(function () {
                     template = '';
                     personas.forEach(persona => {
                         template += `
-                        <div class="cabecera">
-                            <h2 class="titulo_reporte">FECHA QUE SE REPORTO: ${persona.fecha}</h2>
-                            <h2 class="estado_reporte ${persona.estado}">Estado: ${persona.estado}</h2>
-                            <h2 class="titulo_reporte">FOLIO DEL REPORTE: ${persona.folio}</h2>
+                        <div class="cabecera fragment">
+                            <h2 class="txt txt__cabecera">Folio de solicitud: ${persona.folio}</h2>
+                            <h2 class="txt txt__cabecera ${persona.estado}">Estado: ${persona.estado}</h2>
                         </div>
                         <div class="cuerpo">
                             <table>
@@ -497,7 +494,7 @@ $(document).ready(function () {
                     
                     template += `
                     <div class="cabecera">
-                    <h2 class="titulo_reporte">No hay solicitudes canceladas en este momento</h2>
+                    <h2 class="txt txt__cabecera">No hay solicitudes canceladas en este momento</h2>
 
                     </div>
                     `;
@@ -507,10 +504,9 @@ $(document).ready(function () {
                     
                     personas.forEach(persona => {
                         template += `
-                        <div class="cabecera">
-                            <h2 class="titulo_reporte">FECHA QUE SE REPORTO: ${persona.fecha}</h2>
-                            <h2 class="estado_reporte ${persona.estado}">Estado: ${persona.estado}</h2>
-                            <h2 class="titulo_reporte">FOLIO DEL REPORTE: ${persona.folio}</h2>
+                        <div class="cabecera fragment">
+                            <h2 class="txt txt__cabecera">Folio de solicitud: ${persona.folio}</h2>
+                            <h2 class="txt txt__cabecera ${persona.estado}">Estado: ${persona.estado}</h2>
                         </div>
                         <div class="cuerpo">
                             <table>
